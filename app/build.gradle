@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+  defaultConfig {
+    applicationId "de.hannesstruss.alter"
+  }
+  signingConfigs {
+    debug {
+      storeFile file('debug.keystore')
+      storePassword 'hunter2'
+      keyAlias 'key0'
+      keyPassword 'hunter2'
+    }
+
+    if (file('upload.keystore').exists()) {
+      upload {
+        storeFile file('upload.keystore')
+        storePassword getProperty('alter.upload_store_password')
+        keyAlias 'key0'
+        keyPassword getProperty('alter.upload_key_password')
+      }
+    }
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix = ".dev"
+      versionNameSuffix = "-dev"
+      minifyEnabled false
+      signingConfig signingConfigs.debug
+    }
+
+    release {
+      minifyEnabled false
+      if (file('upload.keystore').exists()) {
+        signingConfig signingConfigs.upload
+      } else {
+        signingConfig signingConfigs.debug
+      }
+    }
+  }
+
+  packagingOptions {
+    pickFirst "META-INF/atomicfu.kotlin_module"
+  }
+}
+
+dependencies {
+}

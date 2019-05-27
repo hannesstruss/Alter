@@ -1,0 +1,26 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  compileSdkVersion buildConfig.compileSdk
+
+  defaultConfig {
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.targetSdk
+    versionCode = buildConfig.version.code
+    versionName = buildConfig.version.name
+  }
+}
+
+dependencies {
+  implementation deps.kotlin.stdlib
+  implementation deps.dagger.runtime
+  kapt deps.dagger.compiler
+
+  implementation deps.timber
+}

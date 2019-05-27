@@ -1,0 +1,11 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+  implementation project(':modules:statemachine')
+
+  implementation deps.android.arch.lifecycle.viewmodel
+  implementation deps.android.arch.lifecycle.extensions
+  implementation deps.android.support.fragment
+  implementation deps.rx.android
+  implementation deps.rx.relay
+}
