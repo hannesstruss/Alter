@@ -1,3 +1,4 @@
 include ':app'
 include ':modules:statemachine'
 include ':modules:statemachine-aac'
+include ':modules:commontest'

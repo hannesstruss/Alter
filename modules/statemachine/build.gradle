@@ -1,14 +1,15 @@
 apply plugin: 'kotlin'
 
 dependencies {
-  compile deps.kotlin.stdlib
+  implementation deps.kotlin.stdlib
 
-  compile deps.kotlin.coroutines.core
-  compile deps.kotlin.coroutines.rx2
+  implementation deps.kotlin.coroutines.core
+  implementation deps.kotlin.coroutines.rx2
 
-  compile deps.rx.java
-  compile deps.rx.relay
+  implementation deps.rx.java
+  implementation deps.rx.relay
 
-  testCompile deps.junit
-  testCompile deps.truth
+  testImplementation deps.junit
+  testImplementation deps.truth
+  testImplementation project(':modules:commontest')
 }

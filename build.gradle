@@ -38,7 +38,7 @@ buildscript {
 
   ext.deps = [
       'kotlin': [
-          'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin.lang}",
+          'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.lang}",
           'coroutines': [
               'core': "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutines}",
               'rx2': "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${versions.kotlin.coroutines}",
@@ -149,6 +149,12 @@ subprojects { subproject ->
 
   plugins.withId("com.android.library") {
     subproject.apply from: rootProject.file("setup_android_module.gradle")
+  }
+
+  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    subproject.dependencies {
+      deps.kotlin.stdlib
+    }
   }
 
   tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

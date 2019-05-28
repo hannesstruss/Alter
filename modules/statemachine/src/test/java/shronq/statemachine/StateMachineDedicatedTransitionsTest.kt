@@ -1,5 +1,6 @@
 package shronq.statemachine
 
+import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -31,14 +32,15 @@ class StateMachineDedicatedTransitionsTest {
       val machine = StateMachine.create<TestState, TestEvent, DedicatedTransition>(
           coroutineScope = scope,
           initialState = TestState.initial(),
-          events = events,
+          events = events.asFlow(),
           applyTransition = applyTransition
       ) {
         on<TestEvent.CountUp> {
           enterState { DedicatedTransition.Add(2) }
         }
       }
-      val states = machine.states.test()
+//      val states = machine.states.test()
+      val states = TestObserver<TestState>()
       machine.start()
       testCoroutineContext.triggerActions()
 
