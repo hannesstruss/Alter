@@ -3,7 +3,6 @@ package shronq.statemachine.next
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
-import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -29,11 +28,22 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
       block(builder)
 
       val transitions = Channel<TransitionT>(UNLIMITED) // TODO: unlimited?
+      val eventContext = object : EventContext<StateT, TransitionT> {
+        override suspend fun enterState(block: StateT.() -> TransitionT) {
+          val transition = block(getLatestState())
+          transitions.send(transition)
+        }
 
-      hookUpEventBindings(getLatestState, events, transitions, builder.eventBindings)
-      hookUpExternalFlowBindings(getLatestState, transitions, builder.externalFlowBindings)
+        override suspend fun getLatestState() = getLatestState()
+      }
+
+      hookUpEventBindings(events, builder.eventBindings, eventContext)
+      hookUpExternalFlowBindings(builder.externalFlowBindings, eventContext)
 
       emit(state)
+
+      builder.onInitCallback?.invoke(eventContext)
+
       transitions.consumeEach { transition ->
         val nextState = applyTransition(state, transition)
         state = nextState
@@ -43,19 +53,10 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
   }
 
   private fun CoroutineScope.hookUpEventBindings(
-    getLatestState: () -> StateT,
     events: Flow<EventT>,
-    transitions: SendChannel<TransitionT>,
-    eventBindings: List<ListenerBinding<StateT, out EventT, TransitionT>>
+    eventBindings: List<ListenerBinding<StateT, out EventT, TransitionT>>,
+    eventCtx: EventContext<StateT, TransitionT>
   ) {
-    val eventCtx = object : EventContext<StateT, TransitionT> {
-      override suspend fun enterState(block: StateT.() -> TransitionT) {
-        val transition = block(getLatestState())
-        transitions.send(transition)
-      }
-
-      override suspend fun getLatestState() = getLatestState()
-    }
 
     for (binding in eventBindings) {
       @Suppress("UNCHECKED_CAST")
@@ -77,19 +78,9 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
   }
 
   private fun CoroutineScope.hookUpExternalFlowBindings(
-    getLatestState: () -> StateT,
-    transitions: SendChannel<TransitionT>,
-    externalFlowBindings: List<ExternalFlowBinding<StateT, TransitionT>>
+    externalFlowBindings: List<ExternalFlowBinding<StateT, TransitionT>>,
+    eventCtx: EventContext<StateT, TransitionT>
   ) {
-    val eventCtx = object : EventContext<StateT, TransitionT> {
-      override suspend fun enterState(block: StateT.() -> TransitionT) {
-        val transition = block(getLatestState())
-        transitions.send(transition)
-      }
-
-      override suspend fun getLatestState() = getLatestState()
-    }
-
     val flowCtx = object : FlowContext<StateT, TransitionT> {
       override suspend fun <T> Flow<T>.hookUp(block: suspend EventContext<StateT, TransitionT>.(T) -> Unit): HookedUpSubscription {
         collect {
@@ -113,6 +104,12 @@ class StateMachineBuilder<StateT, EventT, TransitionT> {
 
   @PublishedApi
   internal val externalFlowBindings = mutableListOf<ExternalFlowBinding<StateT, TransitionT>>()
+
+  internal var onInitCallback: (suspend EventContext<StateT, TransitionT>.() -> Unit)? = null
+
+  fun onInit(block: suspend EventContext<StateT, TransitionT>.() -> Unit) {
+    onInitCallback = block
+  }
 
   inline fun <reified T : EventT> on(noinline block: suspend EventContext<StateT, TransitionT>.(T) -> Unit) {
     eventBindings.add(ListenerBinding(T::class.java, ListenerBinding.Mode.ALL, block))

@@ -24,6 +24,20 @@ class StateMachine2Test {
     )
   }
 
+  @Test fun onInit() = runTest {
+    val machine = adapter {
+      onInit {
+        enterState { copy(counter = 10) }
+      }
+    }
+    machine.states.test {
+      assertThat(item().counter).isEqualTo(0)
+      assertThat(item().counter).isEqualTo(10)
+
+      cancel()
+    }
+  }
+
   @Test fun `simple events`() = runTest {
     val machine = adapter {
       on<CountUp> {
