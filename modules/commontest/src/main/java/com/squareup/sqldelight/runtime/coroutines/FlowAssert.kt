@@ -33,7 +33,6 @@ suspend fun <T> Flow<T>.test(timeoutMs: Long = 1000L, validate: suspend FlowAsse
     val collectJob = launch {
       val terminalEvent = try {
         collect { item ->
-          println("Collected item: $item")
           events.send(Event.Item(item))
         }
         Event.Complete

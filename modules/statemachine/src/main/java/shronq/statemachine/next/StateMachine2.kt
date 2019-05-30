@@ -8,7 +8,10 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 class StateMachine2<StateT, EventT : Any, TransitionT>(
@@ -28,13 +31,12 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
       val transitions = Channel<TransitionT>(UNLIMITED) // TODO: unlimited?
 
       hookUpEventBindings(getLatestState, events, transitions, builder.eventBindings)
-      hookUpExternalFlows(getLatestState, transitions, builder.externalFlowBindings)
+      hookUpExternalFlowBindings(getLatestState, transitions, builder.externalFlowBindings)
 
       emit(state)
       transitions.consumeEach { transition ->
         val nextState = applyTransition(state, transition)
         state = nextState
-        println("Emitting $nextState")
         emit(nextState)
       }
     }
@@ -44,33 +46,37 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
     getLatestState: () -> StateT,
     events: Flow<EventT>,
     transitions: SendChannel<TransitionT>,
-    eventBindings: Map<Class<out EventT>, List<ListenerBinding<StateT, out EventT, TransitionT>>>
+    eventBindings: List<ListenerBinding<StateT, out EventT, TransitionT>>
   ) {
-    launch {
-      events
-        .collect { event ->
-          val bindings = eventBindings[event.javaClass]
-          if (bindings != null) {
-            for (binding in bindings) {
-              @Suppress("UNCHECKED_CAST")
-              val castedBinding = binding as ListenerBinding<StateT, EventT, TransitionT>
+    val eventCtx = object : EventContext<StateT, TransitionT> {
+      override suspend fun enterState(block: StateT.() -> TransitionT) {
+        val transition = block(getLatestState())
+        transitions.send(transition)
+      }
 
-              val eventContext = object : EventContext<StateT, TransitionT> {
-                override suspend fun enterState(block: StateT.() -> TransitionT) {
-                  val transition = getLatestState().block()
-                  transitions.send(transition)
-                }
+      override suspend fun getLatestState() = getLatestState()
+    }
 
-                override suspend fun getLatestState() = getLatestState()
-              }
-              castedBinding.listener(eventContext, event)
-            }
-          }
+    for (binding in eventBindings) {
+      @Suppress("UNCHECKED_CAST")
+      val castedBinding = binding as ListenerBinding<StateT, EventT, TransitionT>
+      var filteredEvents = events.filter { it.javaClass == castedBinding.eventClass }
+
+      filteredEvents = when(castedBinding.mode) {
+        ListenerBinding.Mode.ALL -> filteredEvents
+        ListenerBinding.Mode.DISTINCT -> filteredEvents.distinctUntilChanged()
+        ListenerBinding.Mode.FIRST -> filteredEvents.take(1)
+      }
+
+      launch {
+        filteredEvents.collect { event ->
+          castedBinding.listener(eventCtx, event)
         }
+      }
     }
   }
 
-  private fun CoroutineScope.hookUpExternalFlows(
+  private fun CoroutineScope.hookUpExternalFlowBindings(
     getLatestState: () -> StateT,
     transitions: SendChannel<TransitionT>,
     externalFlowBindings: List<ExternalFlowBinding<StateT, TransitionT>>
@@ -83,6 +89,7 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
 
       override suspend fun getLatestState() = getLatestState()
     }
+
     val flowCtx = object : FlowContext<StateT, TransitionT> {
       override suspend fun <T> Flow<T>.hookUp(block: suspend EventContext<StateT, TransitionT>.(T) -> Unit): HookedUpSubscription {
         collect {
@@ -91,6 +98,7 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
         return HookedUpSubscription()
       }
     }
+
     for (binding in externalFlowBindings) {
       launch {
         binding.block(flowCtx)
@@ -101,15 +109,21 @@ class StateMachine2<StateT, EventT : Any, TransitionT>(
 
 class StateMachineBuilder<StateT, EventT, TransitionT> {
   @PublishedApi
-  internal val eventBindings =
-    mutableMapOf<Class<out EventT>, MutableList<ListenerBinding<StateT, out EventT, TransitionT>>>()
+  internal val eventBindings = mutableListOf<ListenerBinding<StateT, out EventT, TransitionT>>()
 
   @PublishedApi
   internal val externalFlowBindings = mutableListOf<ExternalFlowBinding<StateT, TransitionT>>()
 
   inline fun <reified T : EventT> on(noinline block: suspend EventContext<StateT, TransitionT>.(T) -> Unit) {
-    val bindings = eventBindings.getOrPut(T::class.java) { mutableListOf() }
-    bindings.add(ListenerBinding(block))
+    eventBindings.add(ListenerBinding(T::class.java, ListenerBinding.Mode.ALL, block))
+  }
+
+  inline fun <reified T : EventT> onDistinct(noinline block: suspend EventContext<StateT, TransitionT>.(T) -> Unit) {
+    eventBindings.add(ListenerBinding(T::class.java, ListenerBinding.Mode.DISTINCT, block))
+  }
+
+  inline fun <reified T : EventT> onFirst(noinline block: suspend EventContext<StateT, TransitionT>.(T) -> Unit) {
+    eventBindings.add(ListenerBinding(T::class.java, ListenerBinding.Mode.FIRST, block))
   }
 
   fun externalFlow(block: suspend FlowContext<StateT, TransitionT>.() -> HookedUpSubscription) {
@@ -119,9 +133,14 @@ class StateMachineBuilder<StateT, EventT, TransitionT> {
 }
 
 class ListenerBinding<StateT, SpecificIntentT, TransitionT>(
-  val listener: suspend EventContext<StateT, TransitionT>.(SpecificIntentT) -> Unit,
-  val distinct: Boolean = false
-)
+  val eventClass: Class<SpecificIntentT>,
+  val mode: Mode = Mode.ALL,
+  val listener: suspend EventContext<StateT, TransitionT>.(SpecificIntentT) -> Unit
+) {
+  enum class Mode {
+    ALL, DISTINCT, FIRST
+  }
+}
 
 class ExternalFlowBinding<StateT, TransitionT>(
   val block: suspend FlowContext<StateT, TransitionT>.() -> HookedUpSubscription

@@ -164,16 +164,16 @@ class StateMachineTest {
     runBlocking {
       var setReceived = 0
       engine {
-        onDistinct<TestEvent.Set> {
+        onDistinct<TestEvent.Add> {
           setReceived++
         }
       }
-      events.onNext(TestEvent.Set(1))
-      events.onNext(TestEvent.Set(1))
-      events.onNext(TestEvent.Set(2))
-      events.onNext(TestEvent.Set(2))
-      events.onNext(TestEvent.Set(3))
-      events.onNext(TestEvent.Set(4))
+      events.onNext(TestEvent.Add(1))
+      events.onNext(TestEvent.Add(1))
+      events.onNext(TestEvent.Add(2))
+      events.onNext(TestEvent.Add(2))
+      events.onNext(TestEvent.Add(3))
+      events.onNext(TestEvent.Add(4))
       testCoroutineContext.triggerActions()
       assertThat(setReceived).isEqualTo(4)
     }
