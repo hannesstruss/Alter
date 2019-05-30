@@ -6,6 +6,7 @@ import io.reactivex.Observable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
 
 abstract class StateMachineViewModel<StateT : Any, IntentT : Any> : ViewModel(), CoroutineScope {
@@ -16,18 +17,14 @@ abstract class StateMachineViewModel<StateT : Any, IntentT : Any> : ViewModel(),
 
   abstract val initialState: StateT
   // Use StateT as transition type to only describe a transition as its target state:
-  abstract val engine: StateMachine<StateT, IntentT, StateT>
+  abstract val stateMachine: StateMachine<StateT, IntentT, StateT>
 
   private val views = BehaviorRelay.create<Observable<IntentT>>()
 
   val intents: Observable<IntentT> = views.switchMap { it }
-  val states: Observable<StateT> by lazy {
-    // TODO: Start engine only on subscription?
-    engine.start()
-    engine.states
-  }
+  val states: Flow<StateT> get() = stateMachine.states
 
-  fun attachView(intents: Observable<IntentT>) {
+  fun attachView(intents: Flow<IntentT>) {
     views.accept(intents)
   }
 
@@ -35,9 +32,8 @@ abstract class StateMachineViewModel<StateT : Any, IntentT : Any> : ViewModel(),
     views.accept(Observable.never())
   }
 
-  protected fun createEngine(block: EngineContext<StateT, IntentT, StateT>.() -> Unit): StateMachine<StateT, IntentT, StateT> {
-    return StateMachine.createSimple(
-        coroutineScope = this,
+  protected fun createEngine(block: StateMachineBuilder<StateT, IntentT, StateT>.() -> Unit): StateMachine<StateT, IntentT, StateT> {
+    return StateMachine(
         initialState = initialState,
         events = intents,
         initializer = block

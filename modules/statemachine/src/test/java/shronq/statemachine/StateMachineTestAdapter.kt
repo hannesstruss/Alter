@@ -1,4 +1,4 @@
-package shronq.statemachine.next
+package shronq.statemachine
 
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
@@ -10,7 +10,7 @@ class StateMachineTestAdapter<StateT, EventT : Any, TransitionT>(
   block: StateMachineBuilder<StateT, EventT, TransitionT>.() -> Unit
 ) {
   private val events = BroadcastChannel<EventT>(500)
-  private val stateMachine = StateMachine2<StateT, EventT, TransitionT>(
+  private val stateMachine = StateMachine<StateT, EventT, TransitionT>(
     initialState = initialState,
     events = flow { events.consumeEach { emit(it) } },
     applyTransition = applyTransition,
