@@ -253,7 +253,6 @@ interface StateEditorContext<StateT> {
   val state: StateT
 }
 
-@FlowPreview
 interface FlowContext<StateT, TransitionT> {
   suspend fun <T> Flow<T>.hookUp(): HookedUpSubscription
   suspend fun <T> Flow<T>.hookUp(block: suspend EventContext<StateT, TransitionT>.(T) -> Unit): HookedUpSubscription

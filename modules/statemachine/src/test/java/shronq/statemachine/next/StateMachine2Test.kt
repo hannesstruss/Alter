@@ -13,43 +13,62 @@ import shronq.statemachine.TestEvent.CountUp
 import shronq.statemachine.TestState
 
 class StateMachine2Test {
-  private val events = BroadcastChannel<TestEvent>(100)
-
-  private fun machine(): StateMachine2<TestState, TestEvent, TestState> {
-    val machine = StateMachine2<TestState, TestEvent, TestState>(
+  private fun adapter(
+    block: StateMachineBuilder<TestState, TestEvent, TestState>.() -> Unit
+  ): StateMachineTestAdapter<TestState, TestEvent, TestState> {
+    return StateMachineTestAdapter(
       initialState = TestState.initial(),
-      events = flow { events.consumeEach { emit(it) } },
+      block = block,
       applyTransition = { _, nextState -> nextState }
-    ) {
+    )
+  }
+
+  @Test fun `handles simple events and state transitions`() = runTest {
+    val machine = adapter {
       on<CountUp> {
-        println("Got a count up")
         enterState { copy(counter = counter + 1) }
       }
 
       on<CountDown> {
-        println("Got a count down")
         enterState { copy(counter = counter - 1) }
       }
     }
-
-    return machine
-  }
-
-  @Test fun `counts up and down`() = runTest {
-    machine().states.test {
-      println("Checking first...")
+    machine.states.test {
       val first = item()
       assertThat(first).isEqualTo(TestState.initial())
-      println("Got first: $first")
 
-      events.send(CountUp)
+      machine.send(CountUp)
       assertThat(item().counter).isEqualTo(1)
 
-      events.send(CountUp)
+      machine.send(CountUp)
       assertThat(item().counter).isEqualTo(2)
 
-      events.send(CountDown)
+      machine.send(CountDown)
       assertThat(item().counter).isEqualTo(1)
+
+      cancel()
+    }
+  }
+
+  @Test fun `handles external flows`() = runTest {
+    val external = BroadcastChannel<Int>(10)
+
+    val machine = adapter {
+      externalFlow {
+        flow {
+          external.consumeEach { emit(it) }
+        }.hookUp {
+          enterState { copy(counter = it) }
+        }
+      }
+    }
+
+    machine.states.test {
+      item() // Ignore first.
+
+      external.send(1337)
+
+      assertThat(item().counter).isEqualTo(1337)
 
       cancel()
     }
