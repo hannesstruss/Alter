@@ -42,7 +42,10 @@ class StateMachine<StateT, EventT : Any, TransitionT>(
 
       emit(state)
 
-      builder.onInitCallback?.invoke(eventContext)
+      // Launch a new coroutine, in case the callback is blocking.
+      launch {
+        builder.onInitCallback?.invoke(eventContext)
+      }
 
       transitions.consumeEach { transition ->
         val nextState = applyTransition(state, transition)

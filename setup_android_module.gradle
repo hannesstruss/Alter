@@ -19,6 +19,8 @@ android {
 
 dependencies {
   implementation deps.kotlin.stdlib
+  implementation deps.kotlin.coroutines.core
+  implementation deps.kotlin.coroutines.android
   implementation deps.dagger.runtime
   kapt deps.dagger.compiler
 

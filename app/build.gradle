@@ -46,4 +46,8 @@ android {
 }
 
 dependencies {
+  implementation project(':modules:statemachine')
+
+  implementation deps.android.support.appCompat
+  implementation deps.android.support.constraintLayout
 }

@@ -42,7 +42,8 @@ buildscript {
           'coroutines': [
               'core': "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutines}",
               'rx2': "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${versions.kotlin.coroutines}",
-              'playservices': "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${versions.kotlin.coroutines}"
+              'playservices': "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${versions.kotlin.coroutines}",
+              'android': "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin.coroutines}",
           ]
       ],
       'android': [
@@ -153,7 +154,8 @@ subprojects { subproject ->
 
   tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     subproject.dependencies {
-      deps.kotlin.stdlib
+      implementation deps.kotlin.stdlib
+      implementation deps.kotlin.coroutines.core
     }
   }
 
