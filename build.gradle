@@ -152,11 +152,8 @@ subprojects { subproject ->
     subproject.apply from: rootProject.file("setup_android_module.gradle")
   }
 
-  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    subproject.dependencies {
-      implementation deps.kotlin.stdlib
-      implementation deps.kotlin.coroutines.core
-    }
+  plugins.withId("kotlin") {
+    subproject.apply from: rootProject.file("setup_kotlin_module.gradle")
   }
 
   tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
