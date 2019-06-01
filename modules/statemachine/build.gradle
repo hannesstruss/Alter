@@ -1,13 +1,7 @@
 apply plugin: 'kotlin'
 
 dependencies {
-  implementation deps.kotlin.stdlib
-
-  implementation deps.kotlin.coroutines.core
   implementation deps.kotlin.coroutines.rx2
-
-  implementation deps.rx.java
-  implementation deps.rx.relay
 
   testImplementation deps.junit
   testImplementation deps.truth
