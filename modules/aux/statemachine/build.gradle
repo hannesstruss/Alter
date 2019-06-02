@@ -5,5 +5,5 @@ dependencies {
 
   testImplementation deps.junit
   testImplementation deps.truth
-  testImplementation project(':modules:commontest')
+  testImplementation project(':modules:aux:commontest')
 }

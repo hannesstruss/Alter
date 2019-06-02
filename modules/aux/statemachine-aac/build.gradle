@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-  implementation project(':modules:statemachine')
+  implementation project(':modules:aux:statemachine')
 
   implementation deps.android.arch.lifecycle.viewmodel
   implementation deps.android.arch.lifecycle.extensions

@@ -1,0 +1,4 @@
+package flowbinding
+
+class ViewClicksTest {
+}

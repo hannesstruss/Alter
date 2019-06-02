@@ -46,9 +46,9 @@ android {
 }
 
 dependencies {
-  implementation project(':modules:flowbinding')
-  implementation project(':modules:statemachine')
-  implementation project(':modules:statemachine-aac')
+  implementation project(':modules:aux:flowbinding')
+  implementation project(':modules:aux:statemachine')
+  implementation project(':modules:aux:statemachine-aac')
 
   implementation deps.android.support.appCompat
   implementation deps.android.support.constraintLayout
