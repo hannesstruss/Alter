@@ -1,8 +1,9 @@
 package de.hannesstruss.alter
 
 import android.widget.TextView
+import flowbinding.clicks
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowViaChannel
+import kotlinx.coroutines.flow.map
 import shronq.statemachine.StateMachineFragment
 
 class MainFragment : StateMachineFragment<HelloState, HelloEvent, MainViewModel>() {
@@ -12,17 +13,7 @@ class MainFragment : StateMachineFragment<HelloState, HelloEvent, MainViewModel>
   val txtHello get() = requireView().findViewById<TextView>(R.id.txt_hello)
 
   override fun events(): Flow<HelloEvent> {
-    val helloClicks = flowViaChannel<HelloEvent> { channel ->
-      val txt = txtHello
-      txt.setOnClickListener {
-        channel.offer(HelloEvent.Click)
-      }
-      channel.invokeOnClose {
-        txt.setOnClickListener(null)
-      }
-    }
-
-    return helloClicks
+    return txtHello.clicks().map { HelloEvent.Click }
   }
 
   override fun render(state: HelloState) {

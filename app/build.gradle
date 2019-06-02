@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+  implementation project(':modules:flowbinding')
   implementation project(':modules:statemachine')
   implementation project(':modules:statemachine-aac')
 
