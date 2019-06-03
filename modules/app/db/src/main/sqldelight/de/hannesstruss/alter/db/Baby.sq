@@ -1,0 +1,23 @@
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+
+CREATE TABLE baby (
+    id INTEGER AS Long PRIMARY KEY,
+    name TEXT NOT NULL,
+    parents TEXT NOT NULL,
+    born_at TEXT AS OffsetDateTime,
+    due_on TEXT AS LocalDate
+);
+
+selectAll:
+SELECT * FROM baby;
+
+clear:
+DELETE FROM baby;
+
+initDummyData:
+INSERT INTO baby(name, parents, born_at, due_on)
+VALUES
+  ("Lars Struß", "Tatiana & Hannes", "2019-05-08T23:07:00+02:00", "2019-05-01"),
+  ("Ole Kilian Gnatz", "Veronika & Julian", "2019-05-08T23:07:00+02:00", NULL),
+  ("Eva Goldstein", "Nicole & Felix", NULL, "2019-08-16");

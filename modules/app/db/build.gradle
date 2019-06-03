@@ -1,0 +1,13 @@
+buildscript {
+  dependencies {
+    classpath deps.sqldelight.gradle
+  }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.squareup.sqldelight'
+
+dependencies {
+  implementation deps.sqldelight.android_driver
+  implementation deps.sqldelight.coroutines
+}

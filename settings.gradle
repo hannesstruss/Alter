@@ -1,5 +1,6 @@
 include ':app'
 include ':modules:app:domain'
+include ':modules:app:db'
 include ':modules:aux:commontest'
 include ':modules:aux:flowbinding'
 include ':modules:aux:statemachine'
