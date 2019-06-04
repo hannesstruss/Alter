@@ -4,10 +4,15 @@ buildscript {
   }
 }
 
-apply plugin: 'com.android.library'
+apply plugin: 'kotlin'
 apply plugin: 'com.squareup.sqldelight'
 
 dependencies {
-  implementation deps.sqldelight.android_driver
-  implementation deps.sqldelight.coroutines
+  api deps.sqldelight.coroutines
+}
+
+sqldelight {
+  AlterDatabase {
+    packageName = 'de.hannesstruss.alter.db'
+  }
 }

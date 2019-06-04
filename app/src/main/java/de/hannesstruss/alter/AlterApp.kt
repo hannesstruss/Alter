@@ -9,7 +9,14 @@ class AlterApp : Application() {
     super.onCreate()
 
     if (BuildConfig.DEBUG) {
-      Timber.plant(Timber.DebugTree())
+      val prefix = "ALTR"
+      val tree = object : Timber.DebugTree() {
+        override fun log(level: Int, tag: String?, message: String, t: Throwable?) {
+          val p = "$prefix (${Thread.currentThread().name}) "
+          super.log(level, tag, p + message, t)
+        }
+      }
+      Timber.plant(tree)
     }
 
     runDbTest(this)
