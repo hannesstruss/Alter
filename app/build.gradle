@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-  implementation project(':modules:app:db')
+  implementation project(':modules:app:db-android')
 
   implementation project(':modules:aux:flowbinding')
   implementation project(':modules:aux:statemachine')

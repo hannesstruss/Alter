@@ -1,7 +1,7 @@
 package de.hannesstruss.alter
 
 import android.app.Application
-import de.hannesstruss.alter.db.runDbTest
+import de.hannesstruss.alter.db.android.runDbTest
 import timber.log.Timber
 
 class AlterApp : Application() {
