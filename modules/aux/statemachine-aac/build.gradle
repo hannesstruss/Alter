@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-  implementation project(':modules:aux:statemachine')
+  api project(':modules:aux:statemachine')
 
-  implementation deps.android.arch.lifecycle.viewmodel
+  api deps.android.arch.lifecycle.viewmodel
+  api deps.android.support.fragment
   implementation deps.android.arch.lifecycle.extensions
-  implementation deps.android.support.fragment
 }

@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-  implementation project(':modules:app:db')
+  api project(':modules:app:db')
+  api project(':modules:app:domain')
 
   implementation deps.sqldelight.android_driver
 }

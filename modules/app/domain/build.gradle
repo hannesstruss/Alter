@@ -1,5 +1,5 @@
 apply plugin: 'kotlin'
 
 dependencies {
-//  implementation project(':modules:app:db')
+  api project(':modules:app:db')
 }

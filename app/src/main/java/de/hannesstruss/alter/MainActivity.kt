@@ -3,6 +3,9 @@ package de.hannesstruss.alter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import de.hannesstruss.alter.db.android.AndroidBabiesRepository
+import de.hannesstruss.alter.db.android.alterDb
+import de.hannesstruss.alter.features.list.viewModel
 import shronq.statemachine.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +19,8 @@ class MainActivity : AppCompatActivity() {
     if (name == ViewModelFactory.SERVICE_NAME) {
       return object : ViewModelFactory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-          return MainViewModel() as T
+          val repo = AndroidBabiesRepository(alterDb(this@MainActivity))
+          return viewModel(repo) as T
         }
       }
     }

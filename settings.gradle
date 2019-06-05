@@ -1,4 +1,5 @@
 include ':app'
+include ':modules:app:features:list'
 include ':modules:app:domain'
 include ':modules:app:db'
 include ':modules:app:db-android'

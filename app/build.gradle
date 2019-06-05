@@ -47,6 +47,7 @@ android {
 }
 
 dependencies {
+  implementation project(':modules:app:features:list')
   implementation project(':modules:app:db-android')
 
   implementation project(':modules:aux:flowbinding')

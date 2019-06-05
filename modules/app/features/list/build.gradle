@@ -1,0 +1,6 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+  implementation project(':modules:app:domain')
+  implementation project(':modules:aux:statemachine-aac')
+}
