@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +18,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
+interface FeatureComponent<ViewModelT> {
+  fun viewModel(): ViewModelT
+}
 
 abstract class StateMachineFragment
 <StateT, EventT : Any, ViewModelT : StateMachineViewModel<StateT, EventT>> : Fragment() {
@@ -31,15 +37,29 @@ abstract class StateMachineFragment
 
   private lateinit var viewModel: ViewModelT
 
+  abstract fun <T> getFeatureDependencies(): T
+  abstract fun createFeatureComponent(): FeatureComponent<ViewModelT>
+
   @SuppressLint("WrongConstant")
-  private fun initViewModel(context: Context) {
-    val factory = context.getSystemService(ViewModelFactory.SERVICE_NAME) as ViewModelFactory
+  private fun initViewModel() {
+    val factory = object : ViewModelProvider.Factory {
+      override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass != viewModelClass) {
+          throw IllegalStateException("${modelClass.name} requested, but factory only knows ${viewModelClass.name}")
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        return createFeatureComponent().viewModel() as T
+      }
+    }
+
+
     viewModel = ViewModelProviders.of(this, factory).get(viewModelClass)
   }
 
   @CallSuper
   override fun onAttach(context: Context) {
-    initViewModel(context)
+    initViewModel()
     super.onAttach(context)
   }
 

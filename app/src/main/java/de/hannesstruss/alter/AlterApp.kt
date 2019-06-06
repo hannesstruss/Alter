@@ -1,9 +1,13 @@
 package de.hannesstruss.alter
 
 import android.app.Application
+import de.hannesstruss.alter.di.AppComponent
+import de.hannesstruss.alter.di.DaggerAppComponent
 import timber.log.Timber
 
 class AlterApp : Application() {
+  internal lateinit var appComponent: AppComponent
+
   override fun onCreate() {
     super.onCreate()
 
@@ -17,5 +21,7 @@ class AlterApp : Application() {
       }
       Timber.plant(tree)
     }
+
+    appComponent = DaggerAppComponent.factory().create(this)
   }
 }

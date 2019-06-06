@@ -6,8 +6,10 @@ import de.hannesstruss.alter.db.Baby
 import de.hannesstruss.alter.domain.BabiesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class AndroidBabiesRepository(
+class AndroidBabiesRepository
+@Inject constructor(
   private val alterDb: AlterDatabase
 ) : BabiesRepository {
   override fun getAll(): Flow<List<Baby>> {
