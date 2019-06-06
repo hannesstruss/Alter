@@ -2,4 +2,5 @@ apply plugin: 'com.android.library'
 
 dependencies {
   api project(':modules:aux:statemachine-aac')
+  api project(':modules:app:navigation')
 }

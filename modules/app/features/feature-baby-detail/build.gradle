@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-  implementation project(':modules:app:domain')
   implementation project(':modules:app:features:common')
-  implementation project(':modules:aux:flowbinding')
+  implementation project(':modules:app:domain')
 }

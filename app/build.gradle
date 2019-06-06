@@ -47,8 +47,12 @@ android {
 }
 
 dependencies {
+  implementation project(':modules:app:navigation')
+
   implementation project(':modules:app:features:common')
   implementation project(':modules:app:features:feature-list')
+  implementation project(':modules:app:features:feature-baby-detail')
+
   implementation project(':modules:app:db-android')
 
   implementation project(':modules:aux:flowbinding')
@@ -57,4 +61,7 @@ dependencies {
 
   implementation deps.android.support.appCompat
   implementation deps.android.support.constraintLayout
+  implementation deps.android.arch.lifecycle.extensions
+  implementation deps.android.arch.navigation.fragment
+  implementation deps.android.arch.navigation.ui
 }

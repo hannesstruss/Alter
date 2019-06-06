@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+  android:id="@+id/nav_graph"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  app:startDestination="@id/babyListFragment"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <fragment
+    android:id="@+id/babyListFragment"
+    android:name="de.hannesstruss.alter.features.list.BabyListFragment"
+    android:label="BabyListFragment"
+  >
+    <action
+      android:id="@+id/action_babyListFragment_to_babyDetailFragment"
+      app:destination="@id/babyDetailFragment"
+      app:enterAnim="@anim/nav_default_enter_anim"
+      app:exitAnim="@anim/nav_default_exit_anim"
+      app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+      app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/babyDetailFragment"
+    android:name="de.hannesstruss.alter.features.babydetail.BabyDetailFragment"
+    android:label="BabyDetailFragment"/>
+</navigation>
