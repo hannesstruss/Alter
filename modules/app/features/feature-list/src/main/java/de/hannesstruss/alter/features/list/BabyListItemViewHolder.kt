@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import de.hannesstruss.alter.db.Baby
+import de.hannesstruss.alter.domain.ageDays
+import java.time.OffsetDateTime
 
 class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
   var clickHandler: ((Int) -> Unit)? = null
@@ -28,5 +30,6 @@ class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(v
 
   fun bind(baby: Baby) {
     view.findViewById<TextView>(R.id.txt_name).text = baby.name
+    view.findViewById<TextView>(R.id.txt_age).text = baby.ageDays(OffsetDateTime.now())?.toString() ?: ""
   }
 }
