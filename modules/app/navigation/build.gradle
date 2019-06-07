@@ -1,1 +1,13 @@
-apply plugin: 'kotlin'
+buildscript {
+  dependencies {
+    classpath deps.android.arch.navigation.safeargs_plugin
+  }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+dependencies {
+  api deps.android.arch.navigation.fragment
+  implementation deps.android.arch.navigation.ui
+}

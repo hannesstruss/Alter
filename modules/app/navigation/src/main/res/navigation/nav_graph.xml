@@ -23,5 +23,8 @@
   <fragment
     android:id="@+id/babyDetailFragment"
     android:name="de.hannesstruss.alter.features.babydetail.BabyDetailFragment"
-    android:label="BabyDetailFragment"/>
+    android:label="BabyDetailFragment">
+    <argument android:name="baby_id"
+              app:argType="long"/>
+  </fragment>
 </navigation>

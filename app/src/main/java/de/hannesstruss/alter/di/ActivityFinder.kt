@@ -1,7 +1,7 @@
 package de.hannesstruss.alter.di
 
-import android.app.Activity
+import androidx.fragment.app.FragmentActivity
 
 interface ActivityFinder {
-  fun findActivity(): Activity
+  fun findActivity(): FragmentActivity
 }

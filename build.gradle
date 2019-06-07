@@ -60,6 +60,7 @@ buildscript {
               'navigation': [
                   'fragment': "androidx.navigation:navigation-fragment-ktx:${versions.arch.navigation}",
                   'ui': "androidx.navigation:navigation-ui-ktx:${versions.arch.navigation}",
+                  'safeargs_plugin': "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.arch.navigation}"
               ],
               'lifecycle': [
                   'viewmodel': "androidx.lifecycle:lifecycle-viewmodel:${versions.arch.lifecycle}",

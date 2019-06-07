@@ -1,5 +1,7 @@
 package de.hannesstruss.alter.navigation
 
+import androidx.navigation.NavDirections
+
 interface Navigator {
-  fun navigateTo(destination: Destination)
+  fun navigateTo(destination: NavDirections)
 }
