@@ -12,6 +12,9 @@ CREATE TABLE baby (
 selectAll:
 SELECT * FROM baby;
 
+byId:
+SELECT * FROM baby WHERE id = :id;
+
 clear:
 DELETE FROM baby;
 

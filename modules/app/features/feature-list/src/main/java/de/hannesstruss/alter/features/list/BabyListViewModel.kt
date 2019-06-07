@@ -14,7 +14,7 @@ class BabyListViewModel
   override val initialState = BabyListState()
   override val stateMachine = createEngine {
     on<ShowDetail> {
-      navigator.navigateTo(BabyListFragmentDirections.actionBabyListFragmentToBabyDetailFragment(1))
+      navigator.navigateTo(BabyListFragmentDirections.actionBabyListFragmentToBabyDetailFragment(it.babyId))
     }
 
     externalFlow {

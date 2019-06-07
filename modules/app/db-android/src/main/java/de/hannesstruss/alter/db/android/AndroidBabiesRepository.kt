@@ -15,4 +15,8 @@ class AndroidBabiesRepository
   override fun getAll(): Flow<List<Baby>> {
     return alterDb.babyQueries.selectAll().asFlow().map { it.executeAsList() }
   }
+
+  override fun byId(id: Long): Flow<Baby> {
+    return alterDb.babyQueries.byId(id).asFlow().map { it.executeAsOne() }
+  }
 }

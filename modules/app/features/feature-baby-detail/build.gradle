@@ -4,4 +4,6 @@ dependencies {
   implementation project(':modules:app:features:common')
   implementation project(':modules:app:navigation')
   implementation project(':modules:app:domain')
+
+  implementation project(':modules:aux:flowextensions')
 }

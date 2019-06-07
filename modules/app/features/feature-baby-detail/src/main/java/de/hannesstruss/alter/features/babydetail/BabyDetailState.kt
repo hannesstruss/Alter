@@ -2,11 +2,11 @@ package de.hannesstruss.alter.features.babydetail
 
 import de.hannesstruss.alter.db.Baby
 
-sealed class BabyDetailState {
-  object Loading : BabyDetailState()
-  data class Loaded(val baby: Baby) : BabyDetailState()
-
+data class BabyDetailState(
+  val babyId: Long,
+  val baby: Baby?
+) {
   companion object {
-    fun initial(): BabyDetailState = Loading
+    fun initial(babyId: Long): BabyDetailState = BabyDetailState(babyId = babyId, baby = null)
   }
 }

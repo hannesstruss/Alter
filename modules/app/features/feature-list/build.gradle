@@ -5,4 +5,6 @@ dependencies {
   implementation project(':modules:app:navigation')
   implementation project(':modules:app:features:common')
   implementation project(':modules:aux:flowbinding')
+
+  implementation deps.android.support.constraintLayout
 }
