@@ -24,7 +24,7 @@ class BabyListAdapter(private val inflater: LayoutInflater) : RecyclerView.Adapt
   }
 
   override fun onBindViewHolder(holder: BabyListItemViewHolder, position: Int) {
-    holder.bind(items.get(position))
+    holder.bind(items[position])
   }
 
   fun setBabies(babies: List<Baby>) {

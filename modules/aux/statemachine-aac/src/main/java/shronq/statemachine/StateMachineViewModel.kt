@@ -5,8 +5,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.switchMap
@@ -23,12 +24,9 @@ abstract class StateMachineViewModel<StateT, EventT : Any> : ViewModel(), Corout
   abstract val stateMachine: StateMachine<StateT, EventT, StateT>
 
   private val views = ConflatedBroadcastChannel<Flow<EventT>>()
-  private val viewEvents = flow {
-    val viewsFlow = flow {
-      views.consumeEach { emit(it) }
-    }
-    viewsFlow.switchMap { it }.collect {
-      emit(it)
+  private val viewEvents = channelFlow<EventT> {
+    views.asFlow().switchMap { it }.collect {
+      channel.send(it)
     }
   }
 

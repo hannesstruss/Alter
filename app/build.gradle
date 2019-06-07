@@ -64,4 +64,6 @@ dependencies {
   implementation deps.android.arch.lifecycle.extensions
   implementation deps.android.arch.navigation.fragment
   implementation deps.android.arch.navigation.ui
+
+  testImplementation deps.junit
 }
