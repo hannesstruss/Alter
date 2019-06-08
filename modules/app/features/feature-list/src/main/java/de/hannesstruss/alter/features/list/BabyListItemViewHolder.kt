@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import de.hannesstruss.alter.db.Baby
-import de.hannesstruss.alter.domain.ageDays
+import de.hannesstruss.alter.domain.PrettyAge
 import java.time.OffsetDateTime
 
 class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -30,6 +30,16 @@ class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(v
 
   fun bind(baby: Baby) {
     view.findViewById<TextView>(R.id.txt_name).text = baby.name
-    view.findViewById<TextView>(R.id.txt_age).text = baby.ageDays(OffsetDateTime.now())?.toString() ?: ""
+
+    val age = baby.born_at?.let { bornAt ->
+      val p = PrettyAge.of(bornAt, OffsetDateTime.now())
+      when (p) {
+        is PrettyAge.Days -> "${p.days}d"
+        is PrettyAge.Weeks -> "${p.weeks}w ${p.days}d"
+        is PrettyAge.Months -> "${p.months}m ${p.weeks}w"
+        is PrettyAge.Years -> "${p.years}y ${p.months}m"
+      }
+    } ?: ""
+    view.findViewById<TextView>(R.id.txt_age).text = age
   }
 }

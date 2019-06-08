@@ -112,6 +112,7 @@ buildscript {
     google()
     mavenCentral()
     jcenter()
+    maven { url("https://oss.sonatype.org/content/repositories/snapshots") }
   }
 
   dependencies {
@@ -141,18 +142,18 @@ dependencyUpdates.resolutionStrategy {
 subprojects { subproject ->
   buildscript {
     repositories {
-      maven { url("https://oss.sonatype.org/content/repositories/snapshots") }
       google()
       mavenCentral()
       jcenter()
+      maven { url("https://oss.sonatype.org/content/repositories/snapshots") }
     }
   }
 
   repositories {
-    maven { url("https://oss.sonatype.org/content/repositories/snapshots") }
     google()
     mavenCentral()
     jcenter()
+    maven { url("https://oss.sonatype.org/content/repositories/snapshots") }
   }
 
   plugins.withId("com.android.application") {
