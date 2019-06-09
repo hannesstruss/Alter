@@ -30,16 +30,24 @@ class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(v
 
   fun bind(baby: Baby) {
     view.findViewById<TextView>(R.id.txt_name).text = baby.name
+    view.findViewById<TextView>(R.id.txt_parents).text = baby.parents
 
     val age = baby.born_at?.let { bornAt ->
       val p = PrettyAge.of(bornAt, OffsetDateTime.now())
       when (p) {
-        is PrettyAge.Days -> "${p.days}d"
-        is PrettyAge.Weeks -> "${p.weeks}w ${p.days}d"
-        is PrettyAge.Months -> "${p.months}m ${p.weeks}w"
-        is PrettyAge.Years -> "${p.years}y ${p.months}m"
+        is PrettyAge.Days -> p.days.withUnit("d")
+        is PrettyAge.Weeks -> "${p.weeks.withUnit("w")} ${p.days.withUnit("d")}"
+        is PrettyAge.Months -> "${p.months.withUnit("m")} ${p.weeks.withUnit("w")}"
+        is PrettyAge.Years -> "${p.years.withUnit("y")} ${p.months.withUnit("m")}"
       }
     } ?: ""
     view.findViewById<TextView>(R.id.txt_age).text = age
+  }
+
+  private fun Number.withUnit(unit: String): String {
+    return when (this.toInt()) {
+      0 -> ""
+      else -> "$this$unit"
+    }
   }
 }

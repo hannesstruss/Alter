@@ -4,19 +4,45 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="52dp"
+  android:layout_height="72dp"
 >
+
+  <View
+    android:id="@+id/avatar"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_marginStart="16dp"
+    android:background="@drawable/avatar_placeholder"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+  />
 
   <TextView
     android:id="@+id/txt_name"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/txt_parents"
     app:layout_constraintEnd_toStartOf="@+id/txt_age"
-    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintStart_toEndOf="@id/avatar"
     app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_chainStyle="packed"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
     tools:text="Baby"
+  />
+
+  <TextView
+    android:id="@+id/txt_parents"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="@id/txt_name"
+    app:layout_constraintStart_toStartOf="@id/txt_name"
+    app:layout_constraintTop_toBottomOf="@id/txt_name"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+    android:textColor="?android:attr/textColorSecondary"
+    tools:text="Tatiana &amp; Hannes"
   />
 
   <TextView

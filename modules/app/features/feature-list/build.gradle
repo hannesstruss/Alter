@@ -7,4 +7,5 @@ dependencies {
   implementation project(':modules:aux:flowbinding')
 
   implementation deps.android.support.constraintLayout
+  implementation deps.android.material.material
 }

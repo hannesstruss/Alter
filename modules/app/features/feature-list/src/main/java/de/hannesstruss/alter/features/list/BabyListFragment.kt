@@ -26,6 +26,9 @@ class BabyListFragment :
     adapter = BabyListAdapter(LayoutInflater.from(view.context))
     val rv = view.findViewById<RecyclerView>(R.id.babies_list)
     rv.adapter = adapter
+
+    val dividerDecoration = PaddedDividerItemDecoration(view.context)
+    rv.addItemDecoration(dividerDecoration)
   }
 
   override fun render(state: BabyListState) {
