@@ -22,5 +22,5 @@ initDummyData:
 INSERT INTO baby(name, parents, born_at, due_on)
 VALUES
   ("Lars Struß", "Tatiana & Hannes", "2019-05-08T23:07:00+02:00", "2019-05-01"),
-  ("Ole Kilian Gnatz", "Veronika & Julian", "2019-05-08T20:07:00+02:00", NULL),
+  ("Ole Kilian Gnatz", "Veronika & Julian", "2018-07-29T00:00:00+02:00", NULL),
   ("Eva Goldstein", "Nicole & Felix", NULL, "2019-08-16");

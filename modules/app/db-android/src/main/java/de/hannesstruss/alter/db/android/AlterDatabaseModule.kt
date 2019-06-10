@@ -17,6 +17,9 @@ class AlterDatabaseModule {
       born_atAdapter = OffsetDateTimeAdapter,
       due_onAdapter = LocalDateAdapter
     )
-    return AlterDatabase(driver, adapter)
+    val db = AlterDatabase(driver, adapter)
+    db.babyQueries.clear()
+    db.babyQueries.initDummyData()
+    return db
   }
 }

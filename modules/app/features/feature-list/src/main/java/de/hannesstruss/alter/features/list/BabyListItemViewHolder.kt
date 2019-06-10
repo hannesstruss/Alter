@@ -1,5 +1,8 @@
 package de.hannesstruss.alter.features.list
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TextAppearanceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,12 +37,16 @@ class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(v
 
     val age = baby.born_at?.let { bornAt ->
       val p = PrettyAge.of(bornAt, OffsetDateTime.now())
-      when (p) {
-        is PrettyAge.Days -> p.days.withUnit("d")
-        is PrettyAge.Weeks -> "${p.weeks.withUnit("w")} ${p.days.withUnit("d")}"
-        is PrettyAge.Months -> "${p.months.withUnit("m")} ${p.weeks.withUnit("w")}"
-        is PrettyAge.Years -> "${p.years.withUnit("y")} ${p.months.withUnit("m")}"
+      val res = when (p) {
+        is PrettyAge.Days -> R.plurals.list_age_fmt_days
+        is PrettyAge.Weeks -> R.plurals.list_age_fmt_weeks
+        is PrettyAge.Months -> R.plurals.list_age_fmt_months
+        is PrettyAge.Years -> R.plurals.list_age_fmt_years
       }
+      val text = SpannableString(view.context.resources.getQuantityString(res, p.significantValue.toInt(), p.significantValue))
+      val numberSpan = TextAppearanceSpan(view.context, R.style.TextAppearance_MaterialComponents_Headline5)
+      text.setSpan(numberSpan, 0, p.significantValue.toString().length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+      text
     } ?: ""
     view.findViewById<TextView>(R.id.txt_age).text = age
   }

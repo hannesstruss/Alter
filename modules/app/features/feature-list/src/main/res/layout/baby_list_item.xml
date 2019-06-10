@@ -23,12 +23,12 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
     app:layout_constraintBottom_toTopOf="@id/txt_parents"
     app:layout_constraintEnd_toStartOf="@+id/txt_age"
     app:layout_constraintStart_toEndOf="@id/avatar"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_chainStyle="packed"
-    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
     tools:text="Baby"
   />
 
@@ -36,12 +36,12 @@
     android:id="@+id/txt_parents"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+    android:textColor="?android:attr/textColorSecondary"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="@id/txt_name"
     app:layout_constraintStart_toStartOf="@id/txt_name"
     app:layout_constraintTop_toBottomOf="@id/txt_name"
-    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-    android:textColor="?android:attr/textColorSecondary"
     tools:text="Tatiana &amp; Hannes"
   />
 
@@ -50,6 +50,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="16dp"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+    android:textColor="?android:attr/textColorSecondary"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"

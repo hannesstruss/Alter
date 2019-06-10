@@ -50,8 +50,18 @@ sealed class PrettyAge {
     }
   }
 
-  data class Days(val days: Long) : PrettyAge()
-  data class Weeks(val weeks: Long, val days: Long) : PrettyAge()
-  data class Months(val months: Long, val weeks: Long) : PrettyAge()
-  data class Years(val years: Int, val months: Long) : PrettyAge()
+  abstract val significantValue: Long
+
+  data class Days(val days: Long) : PrettyAge() {
+    override val significantValue = days
+  }
+  data class Weeks(val weeks: Long, val days: Long) : PrettyAge() {
+    override val significantValue = weeks
+  }
+  data class Months(val months: Long, val weeks: Long) : PrettyAge() {
+    override val significantValue = months
+  }
+  data class Years(val years: Int, val months: Long) : PrettyAge() {
+    override val significantValue = years.toLong()
+  }
 }
