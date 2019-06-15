@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import de.hannesstruss.alter.AlterApp
 import de.hannesstruss.alter.domain.BabiesRepository
+import de.hannesstruss.alter.domain.Clock
 import javax.inject.Singleton
 
 @Singleton
@@ -24,4 +25,5 @@ interface AppComponent {
   }
 
   fun babiesRepository(): BabiesRepository
+  fun clock(): Clock
 }

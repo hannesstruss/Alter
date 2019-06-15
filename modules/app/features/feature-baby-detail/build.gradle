@@ -6,4 +6,7 @@ dependencies {
   implementation project(':modules:app:domain')
 
   implementation project(':modules:aux:flowextensions')
+
+  implementation deps.android.support.constraintLayout
+  implementation deps.android.material.material
 }

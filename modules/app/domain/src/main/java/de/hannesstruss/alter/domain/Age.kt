@@ -20,16 +20,16 @@ sealed class PrettyAge {
 
       val oneMonthBefore = now.minusMonths(1)
       if (dob > oneMonthBefore) {
-        return Days(ChronoUnit.DAYS.between(dob, now))
+        return Days(ChronoUnit.DAYS.between(dob, now).toInt())
       }
 
       if (dob > now.minusYears(1)) {
-        var months = (now.monthValue - dob.monthValue + 12).toLong() % 12
+        var months = (now.monthValue - dob.monthValue + 12) % 12
         if (months > 0 && dob.dayOfMonth > now.dayOfMonth) {
           months -= 1
         }
-        val monthsBefore = now.minusMonths(months)
-        val daysBetweenMonthsBefore = ChronoUnit.DAYS.between(dob, monthsBefore)
+        val monthsBefore = now.minusMonths(months.toLong())
+        val daysBetweenMonthsBefore = ChronoUnit.DAYS.between(dob, monthsBefore).toInt()
 
         return Months(months, daysBetweenMonthsBefore / 7)
       }
@@ -38,30 +38,35 @@ sealed class PrettyAge {
       if (dob.withYear(now.year) > now) {
         years -= 1
       }
-      return Years(years, ChronoUnit.MONTHS.between(dob, now) % 12)
+      return Years(years, ChronoUnit.MONTHS.between(dob, now).toInt() % 12)
     }
 
     fun weeksOf(dob: OffsetDateTime, now: OffsetDateTime): Weeks {
       if (dob > now) {
         throw IllegalArgumentException("dob > now")
       }
-      val days = ChronoUnit.DAYS.between(dob, now)
-      return Weeks(days.toInt() / 7L, days.toInt() % 7L)
+      val days = ChronoUnit.DAYS.between(dob, now).toInt()
+      return Weeks(days / 7, days % 7)
     }
   }
 
-  abstract val significantValue: Long
+  abstract val significantValue: Int
+  abstract val lessSignificantValue: Int
 
-  data class Days(val days: Long) : PrettyAge() {
+  data class Days(val days: Int) : PrettyAge() {
     override val significantValue = days
+    override val lessSignificantValue = 0
   }
-  data class Weeks(val weeks: Long, val days: Long) : PrettyAge() {
+  data class Weeks(val weeks: Int, val days: Int) : PrettyAge() {
     override val significantValue = weeks
+    override val lessSignificantValue = days
   }
-  data class Months(val months: Long, val weeks: Long) : PrettyAge() {
+  data class Months(val months: Int, val weeks: Int) : PrettyAge() {
     override val significantValue = months
+    override val lessSignificantValue = weeks
   }
-  data class Years(val years: Int, val months: Long) : PrettyAge() {
-    override val significantValue = years.toLong()
+  data class Years(val years: Int, val months: Int) : PrettyAge() {
+    override val significantValue = years
+    override val lessSignificantValue = months
   }
 }

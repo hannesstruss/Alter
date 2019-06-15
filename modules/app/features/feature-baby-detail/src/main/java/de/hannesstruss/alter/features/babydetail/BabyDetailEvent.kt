@@ -1,3 +1,5 @@
 package de.hannesstruss.alter.features.babydetail
 
-sealed class BabyDetailEvent
+sealed class BabyDetailEvent {
+  object CycleThroughAgeFormats : BabyDetailEvent()
+}

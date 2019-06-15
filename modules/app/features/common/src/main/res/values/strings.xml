@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <plurals name="age_unit_days">
+    <item quantity="one">day</item>
+    <item quantity="other">days</item>
+  </plurals>
+  <plurals name="age_unit_weeks">
+    <item quantity="one">week</item>
+    <item quantity="other">weeks</item>
+  </plurals>
+  <plurals name="age_unit_months">
+    <item quantity="one">month</item>
+    <item quantity="other">months</item>
+  </plurals>
+  <plurals name="age_unit_years">
+    <item quantity="one">year</item>
+    <item quantity="other">years</item>
+  </plurals>
+
+</resources>
