@@ -1,0 +1,6 @@
+apply plugin: 'kotlin'
+
+dependencies {
+  implementation deps.kotlin.coroutines.core
+  implementation deps.sqldelight.runtime
+}
