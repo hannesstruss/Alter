@@ -27,7 +27,7 @@ references:
       command: ./gradlew androidDependencies
 
 jobs:
-  test_unit:
+  build:
     <<: *android_config
     steps:
       - checkout
