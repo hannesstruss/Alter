@@ -73,16 +73,6 @@ buildscript {
               'sqlite': 'androidx.sqlite:sqlite-ktx:2.0.0'
           ]
       ],
-      'rx': [
-          'java': 'io.reactivex.rxjava2:rxjava:2.2.7',
-          'android': 'io.reactivex.rxjava2:rxandroid:2.1.1',
-          'binding': [
-              'main': "com.jakewharton.rxbinding3:rxbinding:${versions.rx.binding}",
-              'material': "com.jakewharton.rxbinding3:rxbinding-material:${versions.rx.binding}",
-              'appcompat': "com.jakewharton.rxbinding3:rxbinding-appcompat:${versions.rx.binding}"
-          ],
-          'relay': 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
-      ],
       'okio': 'com.squareup.okio:okio:2.2.2',
       'bugsnag': [
           'sdk': 'com.bugsnag:bugsnag-android:4.12.0'
