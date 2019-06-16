@@ -1,4 +1,4 @@
-package flowbinding
+package flowbinding.android
 
 import android.view.View
 import kotlinx.coroutines.channels.awaitClose

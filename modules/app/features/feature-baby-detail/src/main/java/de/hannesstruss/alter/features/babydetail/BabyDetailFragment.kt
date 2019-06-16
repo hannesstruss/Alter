@@ -7,7 +7,7 @@ import de.hannesstruss.alter.domain.LessSignificantValueMode
 import de.hannesstruss.alter.domain.format
 import de.hannesstruss.alter.features.babydetail.BabyDetailEvent.CycleThroughAgeFormats
 import de.hannesstruss.alter.features.common.FeatureDependencyProvidingFragment
-import flowbinding.clicks
+import flowbinding.android.clicks
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import shronq.statemachine.FeatureComponent

@@ -1,1 +1,5 @@
 apply plugin: 'com.android.library'
+
+dependencies {
+  implementation deps.android.material.material
+}
