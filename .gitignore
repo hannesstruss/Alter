@@ -10,3 +10,6 @@
 **/build
 /captures
 .externalNativeBuild
+
+app/*.keystore
+!app/debug.keystore
