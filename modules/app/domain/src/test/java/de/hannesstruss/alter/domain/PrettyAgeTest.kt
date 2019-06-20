@@ -40,6 +40,7 @@ class PrettyAgeTest {
   }
 
   @Test fun `calculates weeks correctly`() {
+    assertThat(PrettyAge.weeksOf(d(2019, 5, 1), d(2019, 5, 8))).isEqualTo(Weeks(1, 0))
     assertThat(PrettyAge.weeksOf(d(2019, 4, 17), now)).isEqualTo(Weeks(2, 0))
     assertThat(PrettyAge.weeksOf(d(2019, 4, 16), now)).isEqualTo(Weeks(2, 1))
     assertThat(PrettyAge.weeksOf(d(2019, 3, 16), now)).isEqualTo(Weeks(6, 4))
