@@ -1,5 +1,6 @@
 include ':app'
 include ':modules:app:navigation'
+include ':modules:app:features:feature-edit-baby'
 include ':modules:app:features:feature-list'
 include ':modules:app:features:feature-baby-detail'
 include ':modules:app:features:common'
