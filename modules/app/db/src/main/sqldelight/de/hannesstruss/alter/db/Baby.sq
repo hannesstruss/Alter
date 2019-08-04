@@ -18,6 +18,10 @@ SELECT * FROM baby WHERE id = :id;
 clear:
 DELETE FROM baby;
 
+insert:
+INSERT INTO baby(name, parents, born_at, due_on)
+VALUES (?, ?, ?, ?);
+
 initDummyData:
 INSERT INTO baby(name, parents, born_at, due_on)
 VALUES

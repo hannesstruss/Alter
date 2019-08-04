@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface BabiesRepository {
   fun getAll(): Flow<List<Baby>>
   fun byId(id: Long): Flow<Baby>
+  suspend fun insert(baby: Baby)
 }
