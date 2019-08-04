@@ -30,6 +30,9 @@ class PrettyAgeTest {
     assertResult(2019, 3, 1, Months(2, 0))
     assertResult(2018, 10, 1, Months(7, 0))
     assertResult(2018, 10, 15, Months(6, 2))
+
+    // 12 months, but not one year yet:
+    assertResult(2018, 5, 2, Months(12, 0))
   }
 
   @Test fun `calculates years correctly`() {
@@ -49,7 +52,7 @@ class PrettyAgeTest {
   private fun d(year: Int, month: Int, day: Int) =
     OffsetDateTime.of(LocalDate.of(year, month, day), LocalTime.MIDNIGHT, ZoneOffset.UTC)
 
-  private fun assertResult(year: Int, month: Int, day: Int, result: PrettyAge) {
+  private fun assertResult(year: Int, month: Int, day: Int, result: PrettyAge, now: OffsetDateTime = d(2019, 5, 1)) {
     assertThat(PrettyAge.of(d(year, month, day), now)).isEqualTo(result)
   }
 }

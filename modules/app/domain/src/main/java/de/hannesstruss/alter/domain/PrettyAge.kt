@@ -1,15 +1,7 @@
 package de.hannesstruss.alter.domain
 
-import de.hannesstruss.alter.db.Baby
 import java.time.OffsetDateTime
-import java.time.Period
 import java.time.temporal.ChronoUnit
-
-fun Baby.ageDays(now: OffsetDateTime): Int? {
-  return born_at?.let { born_at ->
-    Period.between(born_at.toLocalDate(), now.toLocalDate()).days
-  }
-}
 
 sealed class PrettyAge {
   companion object {
@@ -24,14 +16,22 @@ sealed class PrettyAge {
       }
 
       if (dob > now.minusYears(1)) {
-        var months = (now.monthValue - dob.monthValue + 12) % 12
-        if (months > 0 && dob.dayOfMonth > now.dayOfMonth) {
-          months -= 1
+        // Find out roughly how many months are between now and dob:
+        var monthsBetween = (now.monthValue - dob.monthValue + 12) % 12
+
+        if (monthsBetween > 0 && dob.dayOfMonth > now.dayOfMonth) {
+          // If the day of the month of the dob is greater than that of now, that one month
+          // is not a full month and we don't count it:
+          monthsBetween -= 1
+        } else if (monthsBetween == 0) {
+          // If there are no months between, we must have hit an overflow
+          // due to the modulo:
+          monthsBetween = 12
         }
-        val monthsBefore = now.minusMonths(months.toLong())
+        val monthsBefore = now.minusMonths(monthsBetween.toLong())
         val daysBetweenMonthsBefore = ChronoUnit.DAYS.between(dob, monthsBefore).toInt()
 
-        return Months(months, daysBetweenMonthsBefore / 7)
+        return Months(monthsBetween, daysBetweenMonthsBefore / 7)
       }
 
       var years = now.year - dob.year
@@ -57,14 +57,17 @@ sealed class PrettyAge {
     override val significantValue = days
     override val lessSignificantValue = 0
   }
+
   data class Weeks(val weeks: Int, val days: Int) : PrettyAge() {
     override val significantValue = weeks
     override val lessSignificantValue = days
   }
+
   data class Months(val months: Int, val weeks: Int) : PrettyAge() {
     override val significantValue = months
     override val lessSignificantValue = weeks
   }
+
   data class Years(val years: Int, val months: Int) : PrettyAge() {
     override val significantValue = years
     override val lessSignificantValue = months
