@@ -25,7 +25,8 @@ class BabyListFragment :
   private lateinit var adapter: BabyListAdapter
 
   override fun events(): Flow<BabyListEvent> {
-    return mergeFlows(adapter.clickedIds.map { ShowDetail(it) },
+    return mergeFlows(
+      adapter.clickedIds.map { ShowDetail(it) },
       toolbar.itemClicks().map {
         when (it.itemId) {
           R.id.add_baby -> AddBaby
