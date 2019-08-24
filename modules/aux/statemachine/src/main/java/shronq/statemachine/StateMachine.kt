@@ -61,19 +61,27 @@ class StateMachine<StateT, EventT : Any, TransitionT>(
     eventCtx: EventContext<StateT, TransitionT>
   ) {
 
+    launch {
+      events.collect {
+        println("Event received: $it")
+      }
+    }
+
     for (binding in eventBindings) {
       @Suppress("UNCHECKED_CAST")
       val castedBinding = binding as ListenerBinding<StateT, EventT, TransitionT>
       var filteredEvents = events.filter { it.javaClass == castedBinding.eventClass }
 
-      filteredEvents = when(castedBinding.mode) {
+      filteredEvents = when (castedBinding.mode) {
         ListenerBinding.Mode.ALL -> filteredEvents
         ListenerBinding.Mode.DISTINCT -> filteredEvents.distinctUntilChanged()
         ListenerBinding.Mode.FIRST -> filteredEvents.take(1)
       }
 
       launch {
+        println("Waiting for event ${castedBinding.eventClass}")
         filteredEvents.collect { event ->
+          println("Got event ${castedBinding.eventClass}")
           castedBinding.listener(eventCtx, event)
         }
       }

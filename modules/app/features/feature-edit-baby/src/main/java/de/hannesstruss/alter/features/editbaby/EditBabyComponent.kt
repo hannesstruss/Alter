@@ -1,5 +1,6 @@
 package de.hannesstruss.alter.features.editbaby
 
+import dagger.BindsInstance
 import dagger.Component
 import de.hannesstruss.alter.domain.BabiesRepository
 import shronq.statemachine.FeatureComponent
@@ -15,7 +16,8 @@ interface EditBabyComponent : FeatureComponent<EditBabyViewModel> {
   @Component.Factory
   interface Factory {
     fun create(
-      deps: EditBabyDependencies
+      deps: EditBabyDependencies,
+      @BindsInstance effects: EditBabyViewEffects
     ): EditBabyComponent
   }
 }
