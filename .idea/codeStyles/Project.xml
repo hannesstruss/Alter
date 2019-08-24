@@ -27,13 +27,7 @@
         <emptyLine />
       </value>
     </option>
-    <option name="RIGHT_MARGIN" value="100" />
     <JavaCodeStyleSettings>
-      <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
-      <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
-      <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
-        <value />
-      </option>
       <option name="IMPORT_LAYOUT_TABLE">
         <value>
           <package name="android" withSubpackages="true" static="false" />
@@ -84,7 +78,6 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="XML">
-      <option name="FORCE_REARRANGE_MODE" value="1" />
       <option name="WRAP_ON_TYPING" value="1" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
