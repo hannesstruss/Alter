@@ -91,7 +91,6 @@ buildscript {
       's3': 'com.amazonaws:aws-android-sdk-s3:2.13.4',
       'sqldelight': [
           'gradle': "com.squareup.sqldelight:gradle-plugin:${versions.sqldelight}",
-          'runtime': "com.squareup.sqldelight:runtime-jvm:${versions.sqldelight}",
           'coroutines': "com.squareup.sqldelight:coroutines-extensions:${versions.sqldelight}",
           'android_driver': "com.squareup.sqldelight:android-driver:${versions.sqldelight}"
       ],
@@ -182,6 +181,17 @@ subprojects { subproject ->
           details.useVersion versions.kotlin.coroutines
         }
       }
+    }
+  }
+}
+
+subprojects { subProject ->
+  subProject.configurations.all { configuration ->
+    // Workaround for kapt bug with MPP dependencies
+    // https://youtrack.jetbrains.com/issue/KT-31641
+    // https://youtrack.jetbrains.com/issue/KT-33206
+    if (name.contains('kapt')) {
+      attributes.attribute(Usage.USAGE_ATTRIBUTE, subProject.objects.named(Usage.class, Usage.JAVA_RUNTIME))
     }
   }
 }

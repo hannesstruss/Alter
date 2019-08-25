@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.switchMap
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -26,7 +26,7 @@ abstract class StateMachineViewModel<StateT, EventT : Any> : ViewModel(), Corout
 
   private val views = ConflatedBroadcastChannel<Flow<EventT>>()
   private val viewEvents = channelFlow {
-    views.asFlow().switchMap { it }.collect {
+    views.asFlow().flatMapLatest { it }.collect {
       Timber.d("Got event in switchmap: $it")
       send(it)
     }

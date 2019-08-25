@@ -5,4 +5,5 @@ dependencies {
   api project(':modules:app:domain')
 
   implementation deps.sqldelight.android_driver
+  implementation deps.sqldelight.coroutines
 }
