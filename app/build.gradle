@@ -13,7 +13,7 @@ android {
   defaultConfig {
     applicationId "de.hannesstruss.alter"
 
-    buildConfigField "String", "BUGSNAG_API_KEY", "\"${getProperty('alter.bugsnag_key')}\""
+    buildConfigField "String", "BUGSNAG_API_KEY", "\"${propOrEmpty('alter.bugsnag_key')}\""
   }
   signingConfigs {
     debug {
