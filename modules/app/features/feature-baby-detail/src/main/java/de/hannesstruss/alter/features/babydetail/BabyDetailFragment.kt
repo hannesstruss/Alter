@@ -37,7 +37,7 @@ class BabyDetailFragment :
 
         val due = state.baby.due_on?.let {
           dateFormatter.format(it)
-        }?: ""
+        } ?: ""
         findViewById<TextView>(R.id.txt_due_date).text = due
 
         findViewById<TextView>(R.id.txt_name).text = state.baby.name

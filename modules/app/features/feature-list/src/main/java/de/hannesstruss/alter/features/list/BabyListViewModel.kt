@@ -5,7 +5,6 @@ import de.hannesstruss.alter.features.list.BabyListEvent.AddBaby
 import de.hannesstruss.alter.features.list.BabyListEvent.ShowDetail
 import de.hannesstruss.alter.navigation.Navigator
 import shronq.statemachine.StateMachineViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 class BabyListViewModel
@@ -20,7 +19,7 @@ class BabyListViewModel
     }
 
     on<AddBaby> {
-      Timber.d("Add baby")
+      navigator.navigateTo(BabyListFragmentDirections.actionBabyListFragmentToEditBabyFragment())
     }
 
     externalFlow {

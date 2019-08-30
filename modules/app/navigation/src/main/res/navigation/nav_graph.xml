@@ -18,6 +18,14 @@
       app:exitAnim="@anim/nav_default_exit_anim"
       app:popEnterAnim="@anim/nav_default_pop_enter_anim"
       app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+    <action
+      android:id="@+id/action_babyListFragment_to_editBabyFragment"
+      app:destination="@id/editBabyFragment"
+      app:enterAnim="@anim/nav_default_enter_anim"
+      app:exitAnim="@anim/nav_default_exit_anim"
+      app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+      app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
   </fragment>
 
   <fragment
@@ -26,5 +34,12 @@
     android:label="BabyDetailFragment">
     <argument android:name="baby_id"
               app:argType="long"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/editBabyFragment"
+    android:name="de.hannesstruss.alter.features.editbaby.EditBabyFragment"
+    android:label="EditBabyFragment">
+
   </fragment>
 </navigation>

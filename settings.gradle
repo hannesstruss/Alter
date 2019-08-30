@@ -1,5 +1,8 @@
+enableFeaturePreview('GRADLE_METADATA')
+
 include ':app'
 include ':modules:app:navigation'
+include ':modules:app:features:feature-edit-baby'
 include ':modules:app:features:feature-list'
 include ':modules:app:features:feature-baby-detail'
 include ':modules:app:features:common'
@@ -10,6 +13,5 @@ include ':modules:app:theme'
 include ':modules:aux:commontest'
 include ':modules:aux:flowbinding'
 include ':modules:aux:flowextensions'
-include ':modules:aux:sqldelight-flow'
 include ':modules:aux:statemachine'
 include ':modules:aux:statemachine-aac'

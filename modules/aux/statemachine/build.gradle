@@ -2,6 +2,7 @@ apply plugin: 'kotlin'
 
 dependencies {
   implementation deps.kotlin.coroutines.rx2
+  implementation deps.timber
 
   testImplementation deps.junit
   testImplementation deps.truth
