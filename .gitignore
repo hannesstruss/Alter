@@ -13,3 +13,5 @@
 
 app/*.keystore
 !app/debug.keystore
+
+app/publishkey.json

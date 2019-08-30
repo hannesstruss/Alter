@@ -1,4 +1,13 @@
-apply plugin: 'com.android.application'
+buildscript {
+  dependencies {
+    classpath deps.triplet
+  }
+}
+
+plugins {
+  id 'com.android.application'
+  id 'com.github.triplet.play'
+}
 
 android {
   defaultConfig {
@@ -68,4 +77,12 @@ dependencies {
   implementation deps.android.arch.navigation.ui
 
   testImplementation deps.junit
+}
+
+play {
+  if (file('publishkey.json').exists()) {
+    serviceAccountCredentials = file('publishkey.json')
+  } else {
+    enabled = false
+  }
 }

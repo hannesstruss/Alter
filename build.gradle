@@ -6,8 +6,8 @@ buildscript {
 
       'version': [
           'major': 0,
-          'minor': 1,
-          'patch': 1,
+          'minor': 2,
+          'patch': 0,
           'build': 0,
       ],
   ]
@@ -95,7 +95,8 @@ buildscript {
           'android_driver': "com.squareup.sqldelight:android-driver:${versions.sqldelight}"
       ],
       'junit': 'junit:junit:4.12',
-      'truth': 'com.google.truth:truth:0.43'
+      'truth': 'com.google.truth:truth:0.43',
+      'triplet': 'com.github.triplet.gradle:play-publisher:2.3.0'
   ]
 
   repositories {
