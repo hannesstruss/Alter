@@ -75,7 +75,7 @@ buildscript {
       ],
       'okio': 'com.squareup.okio:okio:2.2.2',
       'bugsnag': [
-          'sdk': 'com.bugsnag:bugsnag-android:4.12.0'
+          'sdk': 'com.bugsnag:bugsnag-android:4.19.0'
       ],
       'gson': 'com.google.code.gson:gson:2.8.5',
       'timber': 'com.jakewharton.timber:timber:4.7.1',

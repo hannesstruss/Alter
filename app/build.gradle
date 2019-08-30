@@ -12,6 +12,8 @@ plugins {
 android {
   defaultConfig {
     applicationId "de.hannesstruss.alter"
+
+    buildConfigField "String", "BUGSNAG_API_KEY", "\"${getProperty('alter.bugsnag_key')}\""
   }
   signingConfigs {
     debug {
@@ -75,6 +77,8 @@ dependencies {
   implementation deps.android.arch.lifecycle.extensions
   implementation deps.android.arch.navigation.fragment
   implementation deps.android.arch.navigation.ui
+
+  implementation deps.bugsnag.sdk
 
   testImplementation deps.junit
 }
