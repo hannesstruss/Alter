@@ -79,9 +79,7 @@ class StateMachine<StateT, EventT : Any, TransitionT>(
       }
 
       launch {
-        println("Waiting for event ${castedBinding.eventClass}")
         filteredEvents.collect { event ->
-          println("Got event ${castedBinding.eventClass}")
           castedBinding.listener(eventCtx, event)
         }
       }

@@ -4,13 +4,17 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -25,10 +29,18 @@ abstract class StateMachineViewModel<StateT, EventT : Any> : ViewModel(), Corout
   abstract val stateMachine: StateMachine<StateT, EventT, StateT>
 
   private val views = ConflatedBroadcastChannel<Flow<EventT>>()
-  private val viewEvents = channelFlow {
-    views.asFlow().flatMapLatest { it }.collect {
-      Timber.d("Got event in switchmap: $it")
-      send(it)
+
+  // Do some gymnastics to multicast the events (I'm sure there's a better way):
+  private val viewEventsChannel = BroadcastChannel<EventT>(1)
+  private val viewEvents = flow {
+    viewEventsChannel.consumeEach { emit(it) }
+  }
+
+  init {
+    launch {
+      views.asFlow().flatMapLatest { it }.collect { event ->
+        viewEventsChannel.offer(event)
+      }
     }
   }
 

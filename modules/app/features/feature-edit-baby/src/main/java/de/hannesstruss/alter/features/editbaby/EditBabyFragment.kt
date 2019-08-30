@@ -2,19 +2,27 @@ package de.hannesstruss.alter.features.editbaby
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.picker.MaterialDatePicker
 import com.google.android.material.picker.MaterialPickerOnPositiveButtonClickListener
 import de.hannesstruss.alter.features.common.FeatureDependencyProvidingFragment
+import de.hannesstruss.alter.features.editbaby.EditBabyEvent.AddBaby
+import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeDateOfBirth
+import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeName
+import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeParents
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.PickDateOfBirth
+import de.hannesstruss.alter.flowextensions.mergeFlows
+import de.hannesstruss.alter.view.textIfChanged
 import flowbinding.android.clicks
+import flowbinding.android.textChanges
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import shronq.statemachine.FeatureComponent
-import timber.log.Timber
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -40,17 +48,24 @@ class EditBabyFragment :
   }
 
   override fun events(): Flow<EditBabyEvent> {
-    return requireView().findViewById<View>(R.id.btnPickDateOfBirth).clicks()
-      .map {
-        Timber.d("Picked")
-        PickDateOfBirth
-      }
+    return mergeFlows(
+      requireView().findViewById<TextView>(R.id.txt_name).textChanges()
+        .map { ChangeName(it.toString()) },
 
-//      ,
-//
-//      datePicker.positiveButtonClicks()
-//        .map { ChangeDateOfBirth(datePicker.selectedDate!!) }
-//    )
+      requireView().findViewById<TextView>(R.id.txt_parents).textChanges()
+        .map { ChangeParents(it.toString()) },
+
+      requireView().findViewById<View>(R.id.btnPickDateOfBirth).clicks()
+        .map { PickDateOfBirth },
+
+      datePicker.positiveButtonClicks()
+        .map { ChangeDateOfBirth(datePicker.selectedDate!!) },
+
+      requireView().findViewById<Button>(R.id.btn_add).clicks()
+        .map {
+          AddBaby
+        }
+    )
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +75,13 @@ class EditBabyFragment :
   }
 
   override fun render(state: EditBabyState) {
+    requireView().findViewById<TextView>(R.id.txt_dob).text = state.birthDate.toString()
 
+    val txtName = requireView().findViewById<TextView>(R.id.txt_name)
+    txtName.textIfChanged = state.name
+
+    val txtParents = requireView().findViewById<TextView>(R.id.txt_parents)
+    txtParents.textIfChanged = state.parents
   }
 
   override fun showDatePicker() {
@@ -83,7 +104,10 @@ class EditBabyFragment :
   private val MaterialDatePicker<Long>.selectedDate: LocalDate?
     get() {
       return selection?.let {
-        LocalDateTime.ofInstant(Instant.ofEpochMilli(it), ZoneId.of("Z")).toLocalDate()
+        // Material Date Picker uses system time zone instead of UTC.
+        val zoneId = ZoneId.systemDefault()
+
+        LocalDateTime.ofInstant(Instant.ofEpochMilli(it), zoneId).toLocalDate()
       }
     }
 }

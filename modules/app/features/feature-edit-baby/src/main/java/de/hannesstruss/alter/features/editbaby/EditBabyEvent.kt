@@ -7,4 +7,5 @@ sealed class EditBabyEvent {
   data class ChangeParents(val parents: String) : EditBabyEvent()
   object PickDateOfBirth : EditBabyEvent()
   data class ChangeDateOfBirth(val dateOfBirth: LocalDate) : EditBabyEvent()
+  object AddBaby : EditBabyEvent()
 }
