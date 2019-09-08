@@ -7,9 +7,6 @@ import de.hannesstruss.alter.domain.PrettyAge.Weeks
 import de.hannesstruss.alter.domain.PrettyAge.Years
 import org.junit.Test
 import java.time.LocalDate
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.ZoneOffset
 
 class PrettyAgeTest {
   /*
@@ -49,10 +46,15 @@ class PrettyAgeTest {
     assertThat(PrettyAge.weeksOf(d(2019, 3, 16), now)).isEqualTo(Weeks(6, 4))
   }
 
-  private fun d(year: Int, month: Int, day: Int) =
-    OffsetDateTime.of(LocalDate.of(year, month, day), LocalTime.MIDNIGHT, ZoneOffset.UTC)
+  private fun d(year: Int, month: Int, day: Int) = LocalDate.of(year, month, day)
 
-  private fun assertResult(year: Int, month: Int, day: Int, result: PrettyAge, now: OffsetDateTime = d(2019, 5, 1)) {
-    assertThat(PrettyAge.of(d(year, month, day), now)).isEqualTo(result)
+  private fun assertResult(
+    year: Int,
+    month: Int,
+    day: Int,
+    result: PrettyAge,
+    today: LocalDate = d(2019, 5, 1)
+  ) {
+    assertThat(PrettyAge.of(d(year, month, day), today)).isEqualTo(result)
   }
 }
