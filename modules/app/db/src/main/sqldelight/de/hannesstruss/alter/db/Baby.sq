@@ -9,7 +9,7 @@ CREATE TABLE baby (
 );
 
 selectAll:
-SELECT * FROM baby;
+SELECT * FROM baby ORDER BY due_on ASC, born_at DESC;
 
 byId:
 SELECT * FROM baby WHERE id = :id;
