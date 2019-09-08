@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
   }
 
-  override fun getSystemService(name: String): Any {
+  override fun getSystemService(name: String): Any? {
     return when (name) {
       FeatureDependenciesServiceName -> activityComponent
       else -> super.getSystemService(name)
