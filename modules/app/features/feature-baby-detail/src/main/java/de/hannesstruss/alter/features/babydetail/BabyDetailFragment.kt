@@ -31,7 +31,7 @@ class BabyDetailFragment :
     if (state.baby != null) {
       with(requireView()) {
         val dob = state.baby.born_at?.let {
-          dateFormatter.format(it.toLocalDate())
+          dateFormatter.format(it)
         } ?: ""
         findViewById<TextView>(R.id.txt_dob).text = dob
 

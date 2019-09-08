@@ -1,11 +1,11 @@
 package de.hannesstruss.alter.domain
 
-import java.time.OffsetDateTime
+import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
 sealed class PrettyAge {
   companion object {
-    fun of(dob: OffsetDateTime, now: OffsetDateTime): PrettyAge {
+    fun of(dob: LocalDate, now: LocalDate): PrettyAge {
       if (dob > now) {
         throw IllegalArgumentException("dob > now")
       }
@@ -41,7 +41,7 @@ sealed class PrettyAge {
       return Years(years, ChronoUnit.MONTHS.between(dob, now).toInt() % 12)
     }
 
-    fun weeksOf(dob: OffsetDateTime, now: OffsetDateTime): Weeks {
+    fun weeksOf(dob: LocalDate, now: LocalDate): Weeks {
       if (dob > now) {
         throw IllegalArgumentException("dob > now")
       }

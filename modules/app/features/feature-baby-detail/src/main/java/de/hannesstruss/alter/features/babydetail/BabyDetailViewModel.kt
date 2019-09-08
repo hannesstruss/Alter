@@ -14,7 +14,7 @@ class BabyDetailViewModel
   private val babiesRepository: BabiesRepository,
   clock: Clock
 ) : StateMachineViewModel<BabyDetailState, BabyDetailEvent>() {
-  override val initialState = BabyDetailState(babyId = babyId, now = clock.now())
+  override val initialState = BabyDetailState(babyId = babyId, today = clock.now().toLocalDate())
 
   override val stateMachine = createEngine {
     onInit {

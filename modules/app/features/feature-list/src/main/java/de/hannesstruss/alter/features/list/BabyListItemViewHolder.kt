@@ -9,7 +9,7 @@ import de.hannesstruss.alter.db.Baby
 import de.hannesstruss.alter.domain.LessSignificantValueMode
 import de.hannesstruss.alter.domain.PrettyAge
 import de.hannesstruss.alter.domain.format
-import java.time.OffsetDateTime
+import java.time.LocalDate
 
 class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
   var clickHandler: ((Int) -> Unit)? = null
@@ -35,7 +35,7 @@ class BabyListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(v
     view.findViewById<TextView>(R.id.txt_parents).text = baby.parents
 
     val age = baby.born_at?.let { bornAt ->
-      PrettyAge.of(bornAt, OffsetDateTime.now()).format(
+      PrettyAge.of(bornAt, LocalDate.now()).format(
         context = view.context,
         lessSignificantValueMode = LessSignificantValueMode.Never,
         numberTextAppearance = R.style.TextAppearance_MaterialComponents_Headline5

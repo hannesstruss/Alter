@@ -19,7 +19,7 @@ class AndroidBabiesRepository
   override suspend fun insert(
     name: String,
     parents: String,
-    bornAt: OffsetDateTime?,
+    bornAt: LocalDate?,
     dueOn: LocalDate?
   ) = withContext(Dispatchers.IO) {
     alterDb.babyQueries.insert(name, parents, bornAt, dueOn)

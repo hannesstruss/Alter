@@ -1,6 +1,5 @@
 package de.hannesstruss.alter.features.editbaby
 
-import de.hannesstruss.alter.db.Baby
 import de.hannesstruss.alter.domain.BabiesRepository
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.AddBaby
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeDateOfBirth
@@ -9,10 +8,6 @@ import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeParents
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.PickDateOfBirth
 import de.hannesstruss.alter.navigation.Navigator
 import shronq.statemachine.StateMachineViewModel
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 class EditBabyViewModel
@@ -46,7 +41,7 @@ class EditBabyViewModel
       babiesRepository.insert(
         name = state.name,
         parents = state.parents,
-        bornAt = OffsetDateTime.of(state.birthDate, LocalTime.MIDNIGHT, ZoneOffset.UTC),
+        bornAt = state.birthDate,
         dueOn = null
       )
 
