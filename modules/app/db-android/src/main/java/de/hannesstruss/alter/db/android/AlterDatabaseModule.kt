@@ -17,8 +17,6 @@ class AlterDatabaseModule {
       due_onAdapter = LocalDateAdapter
     )
     val db = AlterDatabase(driver, adapter)
-    db.babyQueries.clear()
-    db.babyQueries.initDummyData()
     return db
   }
 }
