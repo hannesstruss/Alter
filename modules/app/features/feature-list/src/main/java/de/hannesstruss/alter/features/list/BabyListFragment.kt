@@ -20,12 +20,7 @@ class BabyListFragment :
   override fun BabyListFragmentBinding.events(): Flow<BabyListEvent> {
     return mergeFlows(
       adapter.clickedIds.map { ShowDetail(it) },
-      toolbar.itemClicks().map {
-        when (it.itemId) {
-          R.id.add_baby -> AddBaby
-          else -> throw IllegalArgumentException("Unhandled item ID: ${it}")
-        }
-      }
+      toolbar.itemClicks(R.id.add_baby).map { AddBaby }
     )
   }
 

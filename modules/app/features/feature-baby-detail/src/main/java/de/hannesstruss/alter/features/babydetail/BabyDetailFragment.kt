@@ -11,7 +11,6 @@ import de.hannesstruss.alter.flowextensions.mergeFlows
 import flowbinding.android.clicks
 import flowbinding.material.itemClicks
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import shronq.statemachine.FeatureComponent
 import java.time.format.DateTimeFormatter
@@ -28,7 +27,7 @@ class BabyDetailFragment :
   override fun BabyDetailFragmentBinding.events(): Flow<BabyDetailEvent> {
     return mergeFlows(
       txtAge.clicks().map { CycleThroughAgeFormats },
-      toolbar.itemClicks().filter { it.itemId == R.id.delete }.map { DeleteBaby }
+      toolbar.itemClicks(R.id.delete).map { DeleteBaby }
     )
   }
 
