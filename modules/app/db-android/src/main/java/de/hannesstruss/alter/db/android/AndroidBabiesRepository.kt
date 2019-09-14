@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
-import java.time.OffsetDateTime
 import javax.inject.Inject
 
 class AndroidBabiesRepository
@@ -31,5 +30,9 @@ class AndroidBabiesRepository
 
   override fun byId(id: Long): Flow<Baby> {
     return alterDb.babyQueries.byId(id).asFlow().map { it.executeAsOne() }
+  }
+
+  override suspend fun delete(baby: Baby) = withContext(Dispatchers.IO) {
+    alterDb.babyQueries.deleteById(baby.id)
   }
 }

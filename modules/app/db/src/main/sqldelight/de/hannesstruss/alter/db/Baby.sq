@@ -21,6 +21,9 @@ insert:
 INSERT INTO baby(name, parents, born_at, due_on)
 VALUES (?, ?, ?, ?);
 
+deleteById:
+DELETE FROM baby WHERE id = :id;
+
 initDummyData:
 INSERT INTO baby(name, parents, born_at, due_on)
 VALUES

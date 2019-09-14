@@ -7,6 +7,7 @@ import java.time.LocalDate
 interface BabiesRepository {
   fun getAll(): Flow<List<Baby>>
   fun byId(id: Long): Flow<Baby>
+  suspend fun delete(baby: Baby)
   suspend fun insert(
     name: String,
     parents: String,

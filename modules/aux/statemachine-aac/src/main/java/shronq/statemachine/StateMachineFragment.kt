@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,11 +25,20 @@ interface FeatureComponent<ViewModelT> {
 }
 
 abstract class StateMachineFragment
-<StateT, EventT : Any, ViewModelT : StateMachineViewModel<StateT, EventT>> : Fragment() {
-  @get:LayoutRes abstract val layout: Int
+<StateT, EventT : Any, ViewModelT : StateMachineViewModel<StateT, EventT>, ViewBindingT : ViewBinding> : Fragment() {
+  abstract val bindingInflater: (inflater: LayoutInflater, parent: ViewGroup?, attachToRoot: Boolean) -> ViewBindingT
+  /**
+   * Kotlin can't infer the type of a method reference when it has overloads.
+   * Use this to define [bindingInflater] without specifying the type again:
+   *
+   *     override val bindingInflater = infer(MyBinding::inflate)
+   */
+  protected fun infer(inflater: (LayoutInflater, ViewGroup?, Boolean) -> ViewBindingT) = inflater
+  private var views: ViewBindingT? = null
+
   abstract val viewModelClass: Class<ViewModelT>
-  abstract fun events(): Flow<EventT>
-  abstract fun render(state: StateT)
+  abstract fun ViewBindingT.events(): Flow<EventT>
+  abstract fun ViewBindingT.render(state: StateT)
 
   private var renderJob = Job()
   private val renderScope = object : CoroutineScope {
@@ -64,13 +73,22 @@ abstract class StateMachineFragment
     super.onAttach(context)
   }
 
-  @CallSuper
-  override fun onCreateView(
+  final override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    return inflater.inflate(layout, container, false)
+    val binding = bindingInflater(inflater, container, false)
+    views = binding
+    return binding.root
+  }
+
+  final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    (views ?: throw AssertionError()).onViewBound()
+  }
+
+  open fun ViewBindingT.onViewBound() {
   }
 
   @CallSuper
@@ -81,16 +99,19 @@ abstract class StateMachineFragment
 
     renderJob = Job()
     renderScope.launch {
-      viewModel.states.collect { render(it) }
+      viewModel.states.collect { state ->
+        views?.render(state)
+      }
     }
-    viewModel.attachView(events().flowOn(Dispatchers.Main))
+    viewModel.attachView(views!!.events().flowOn(Dispatchers.Main))
   }
 
   @CallSuper
   override fun onDestroyView() {
-    super.onDestroyView()
-
+    views = null
     renderJob.cancel()
     viewModel.dropView()
+
+    super.onDestroyView()
   }
 }

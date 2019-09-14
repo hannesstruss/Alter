@@ -1,11 +1,10 @@
 package de.hannesstruss.alter.features.babydetail
 
-import android.view.View
-import android.widget.TextView
 import androidx.navigation.fragment.navArgs
 import de.hannesstruss.alter.domain.LessSignificantValueMode
 import de.hannesstruss.alter.domain.format
 import de.hannesstruss.alter.features.babydetail.BabyDetailEvent.CycleThroughAgeFormats
+import de.hannesstruss.alter.features.babydetail.databinding.BabyDetailFragmentBinding
 import de.hannesstruss.alter.features.common.FeatureDependencyProvidingFragment
 import flowbinding.android.clicks
 import kotlinx.coroutines.flow.Flow
@@ -15,39 +14,41 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 class BabyDetailFragment :
-  FeatureDependencyProvidingFragment<BabyDetailState, BabyDetailEvent, BabyDetailViewModel>() {
+  FeatureDependencyProvidingFragment<BabyDetailState, BabyDetailEvent, BabyDetailViewModel, BabyDetailFragmentBinding>() {
   private val args: BabyDetailFragmentArgs by navArgs()
   private val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 
-  override val layout = R.layout.baby_detail_fragment
+  override val bindingInflater = infer(BabyDetailFragmentBinding::inflate)
   override val viewModelClass = BabyDetailViewModel::class.java
 
-  override fun events(): Flow<BabyDetailEvent> {
-    return requireView().findViewById<View>(R.id.txt_age).clicks()
+  override fun BabyDetailFragmentBinding.events(): Flow<BabyDetailEvent> {
+    return txtAge.clicks()
       .map { CycleThroughAgeFormats }
   }
 
-  override fun render(state: BabyDetailState) {
+  override fun BabyDetailFragmentBinding.onViewBound() {
+    toolbar.inflateMenu(R.menu.baby_detail)
+  }
+
+  override fun BabyDetailFragmentBinding.render(state: BabyDetailState) {
     if (state.baby != null) {
-      with(requireView()) {
-        val dob = state.baby.born_at?.let {
-          dateFormatter.format(it)
-        } ?: ""
-        findViewById<TextView>(R.id.txt_dob).text = dob
+      val dob = state.baby.born_at?.let {
+        dateFormatter.format(it)
+      } ?: ""
+      txtDob.text = dob
 
-        val due = state.baby.due_on?.let {
-          dateFormatter.format(it)
-        } ?: ""
-        findViewById<TextView>(R.id.txt_due_date).text = due
+      val due = state.baby.due_on?.let {
+        dateFormatter.format(it)
+      } ?: ""
+      txtDueDate.text = due
 
-        findViewById<TextView>(R.id.txt_name).text = state.baby.name
-        findViewById<TextView>(R.id.txt_parents).text = state.baby.parents
-        findViewById<TextView>(R.id.txt_age).text = state.age?.format(
-          context = context,
-          lessSignificantValueMode = LessSignificantValueMode.IfNonZero,
-          numberTextAppearance = R.style.TextAppearance_MaterialComponents_Headline5
-        ) ?: ""
-      }
+      txtName.text = state.baby.name
+      txtParents.text = state.baby.parents
+      txtAge.text = state.age?.format(
+        context = requireContext(),
+        lessSignificantValueMode = LessSignificantValueMode.IfNonZero,
+        numberTextAppearance = R.style.TextAppearance_MaterialComponents_Headline5
+      ) ?: ""
     }
   }
 

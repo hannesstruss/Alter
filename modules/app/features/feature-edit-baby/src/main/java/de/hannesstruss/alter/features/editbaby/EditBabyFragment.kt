@@ -1,9 +1,5 @@
 package de.hannesstruss.alter.features.editbaby
 
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.picker.MaterialDatePicker
@@ -14,6 +10,7 @@ import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeDateOfBirth
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeName
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeParents
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.PickDateOfBirth
+import de.hannesstruss.alter.features.editbaby.databinding.EditBabyFragmentBinding
 import de.hannesstruss.alter.flowextensions.mergeFlows
 import de.hannesstruss.alter.view.textIfChanged
 import flowbinding.android.clicks
@@ -29,13 +26,13 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 class EditBabyFragment :
-  FeatureDependencyProvidingFragment<EditBabyState, EditBabyEvent, EditBabyViewModel>(),
+  FeatureDependencyProvidingFragment<EditBabyState, EditBabyEvent, EditBabyViewModel, EditBabyFragmentBinding>(),
   EditBabyViewEffects {
   companion object {
     private const val DatePickerTag = "DatePicker"
   }
 
-  override val layout = R.layout.edit_baby_fragment
+  override val bindingInflater = infer(EditBabyFragmentBinding::inflate)
   override val viewModelClass = EditBabyViewModel::class.java
 
   private lateinit var datePicker: MaterialDatePicker<Long>
@@ -47,40 +44,25 @@ class EditBabyFragment :
     )
   }
 
-  override fun events(): Flow<EditBabyEvent> {
+  override fun EditBabyFragmentBinding.events(): Flow<EditBabyEvent> {
     return mergeFlows(
-      requireView().findViewById<TextView>(R.id.txt_name).textChanges()
-        .map { ChangeName(it.toString()) },
-
-      requireView().findViewById<TextView>(R.id.txt_parents).textChanges()
-        .map { ChangeParents(it.toString()) },
-
-      requireView().findViewById<View>(R.id.btnPickDateOfBirth).clicks()
-        .map { PickDateOfBirth },
-
+      txtName.textChanges().map { ChangeName(it.toString()) },
+      txtParents.textChanges().map { ChangeParents(it.toString()) },
+      btnPickDateOfBirth.clicks().map { PickDateOfBirth },
       datePicker.positiveButtonClicks()
         .map { ChangeDateOfBirth(datePicker.selectedDate!!) },
-
-      requireView().findViewById<Button>(R.id.btn_add).clicks()
-        .map {
-          AddBaby
-        }
+      btnAdd.clicks().map { AddBaby }
     )
   }
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+  override fun EditBabyFragmentBinding.onViewBound() {
     datePicker =
       childFragmentManager.find(DatePickerTag) ?: MaterialDatePicker.Builder.datePicker().build()
   }
 
-  override fun render(state: EditBabyState) {
-    requireView().findViewById<TextView>(R.id.txt_dob).text = state.birthDate.toString()
-
-    val txtName = requireView().findViewById<TextView>(R.id.txt_name)
+  override fun EditBabyFragmentBinding.render(state: EditBabyState) {
+    txtDob.setText(state.birthDate.toString())
     txtName.textIfChanged = state.name
-
-    val txtParents = requireView().findViewById<TextView>(R.id.txt_parents)
     txtParents.textIfChanged = state.parents
   }
 

@@ -16,6 +16,8 @@ android {
     versionCode = buildConfig.version.code
     versionName = buildConfig.version.name
   }
+
+  viewBinding.enabled = true
 }
 
 dependencies {
