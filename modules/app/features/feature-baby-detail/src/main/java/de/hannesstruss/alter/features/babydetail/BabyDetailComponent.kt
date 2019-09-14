@@ -4,12 +4,14 @@ import dagger.BindsInstance
 import dagger.Component
 import de.hannesstruss.alter.domain.BabiesRepository
 import de.hannesstruss.alter.domain.Clock
+import de.hannesstruss.alter.navigation.Navigator
 import shronq.statemachine.FeatureComponent
 import javax.inject.Named
 
 interface BabyDetailDependencies {
   fun babiesRepository(): BabiesRepository
   fun clock(): Clock
+  fun navigator(): Navigator
 }
 
 @Component(

@@ -4,10 +4,14 @@ import androidx.navigation.fragment.navArgs
 import de.hannesstruss.alter.domain.LessSignificantValueMode
 import de.hannesstruss.alter.domain.format
 import de.hannesstruss.alter.features.babydetail.BabyDetailEvent.CycleThroughAgeFormats
+import de.hannesstruss.alter.features.babydetail.BabyDetailEvent.DeleteBaby
 import de.hannesstruss.alter.features.babydetail.databinding.BabyDetailFragmentBinding
 import de.hannesstruss.alter.features.common.FeatureDependencyProvidingFragment
+import de.hannesstruss.alter.flowextensions.mergeFlows
 import flowbinding.android.clicks
+import flowbinding.material.itemClicks
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import shronq.statemachine.FeatureComponent
 import java.time.format.DateTimeFormatter
@@ -22,8 +26,10 @@ class BabyDetailFragment :
   override val viewModelClass = BabyDetailViewModel::class.java
 
   override fun BabyDetailFragmentBinding.events(): Flow<BabyDetailEvent> {
-    return txtAge.clicks()
-      .map { CycleThroughAgeFormats }
+    return mergeFlows(
+      txtAge.clicks().map { CycleThroughAgeFormats },
+      toolbar.itemClicks().filter { it.itemId == R.id.delete }.map { DeleteBaby }
+    )
   }
 
   override fun BabyDetailFragmentBinding.onViewBound() {
