@@ -51,7 +51,7 @@ buildscript {
           'support': [
               'appCompat': "androidx.appcompat:appcompat:${versions.supportLibrary}",
               'fragment': "androidx.fragment:fragment-ktx:1.1.0-alpha09",
-              'constraintLayout': 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+              'constraintLayout': 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
           ],
           'material': [
               'material': "com.google.android.material:material:1.1.0-alpha09"
@@ -107,7 +107,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.5.0'
+    classpath 'com.android.tools.build:gradle:3.6.0-alpha11'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin.lang}"
     classpath 'com.github.triplet.gradle:play-publisher:2.2.0'
   }
