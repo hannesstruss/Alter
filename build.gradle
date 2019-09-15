@@ -12,14 +12,18 @@ buildscript {
       ],
   ]
 
-  apply from: file('helpers.gradle')
+  def p = "git rev-list --count HEAD".execute([], rootDir)
+  if (p.waitFor() != 0) {
+    throw new RuntimeException(p.errorStream.text)
+  }
+  int numberOfCommits = p.text.trim().toInteger()
 
   ext.buildConfig.version['name'] = "${buildConfig.version.major}.${buildConfig.version.minor}.${buildConfig.version.patch}"
   if (System.getenv("GITHUB_WORKFLOW") == null) {
     ext.buildConfig.version['code'] = 1
   } else {
     int lastVersionCodeBeforeUsingCommits = 30001
-    ext.buildConfig.version['code'] = numberOfCommits() + lastVersionCodeBeforeUsingCommits
+    ext.buildConfig.version['code'] = numberOfCommits + lastVersionCodeBeforeUsingCommits
   }
 
 
