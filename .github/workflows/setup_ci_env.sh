@@ -9,5 +9,3 @@ EOF
 
 echo "$ALTER_PUBLISHKEY_JSON_B64" | base64 -d > app/publishkey.json
 echo "$ALTER_UPLOAD_KEY_B64" | base64 -d > app/upload.keystore
-
-shasum app/publishkey.json app/upload.keystore $HOME/.gradle/gradle.properties
