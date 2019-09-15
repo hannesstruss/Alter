@@ -15,7 +15,8 @@ buildscript {
   if (System.getenv("GITHUB_WORKFLOW").blank) {
     ext.buildConfig.version['code'] = 1
   } else {
-    ext.buildConfig.version['code'] = numberOfCommits()
+    int lastVersionCodeBeforeUsingCommits = 30001
+    ext.buildConfig.version['code'] = numberOfCommits() + lastVersionCodeBeforeUsingCommits
   }
 
 
