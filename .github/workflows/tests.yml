@@ -9,14 +9,10 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Test check ref
-      run: echo $GHREF
-      env:
-        GHREF: ${{ github.ref }}
     - name: Test
       run: ./gradlew check
     - name: Release
-      if: github.ref == 'master'
+      if: github.ref == 'refs/heads/master'
       env:
         ALTER_BUGSNAG_KEY: ${{ secrets.ALTER_BUGSNAG_KEY }}
         ALTER_PUBLISHKEY_JSON_B64: ${{ secrets.ALTER_PUBLISHKEY_JSON_B64 }}
