@@ -18,4 +18,4 @@ jobs:
         ALTER_UPLOAD_STORE_PASSWORD: ${{ secrets.ALTER_UPLOAD_STORE_PASSWORD }}
       run: |
         .github/workflows/setup_ci_env.sh
-        ./gradlew test :app:publishReleaseApk
+        ./gradlew :app:publishReleaseApk
