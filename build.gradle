@@ -11,6 +11,9 @@ buildscript {
           'build': 1,
       ],
   ]
+
+  apply from: file('helpers.gradle')
+
   ext.buildConfig.version['name'] = "${buildConfig.version.major}.${buildConfig.version.minor}.${buildConfig.version.patch}"
   if (System.getenv("GITHUB_WORKFLOW") == null) {
     ext.buildConfig.version['code'] = 1
@@ -208,12 +211,4 @@ task clean(type: Delete) {
 
 def propOrEmpty(String name) {
   return hasProperty(name) ? getProperty(name) : ''
-}
-
-int numberOfCommits() {
-  def p = "git rev-list --count HEAD".execute([], rootDir)
-  if (p.waitFor() != 0) {
-    throw new RuntimeException(p.errorStream.text)
-  }
-  return p.text.trim().toInteger()
 }

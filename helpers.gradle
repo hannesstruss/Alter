@@ -1,0 +1,7 @@
+int numberOfCommits() {
+  def p = "git rev-list --count HEAD".execute([], rootDir)
+  if (p.waitFor() != 0) {
+    throw new RuntimeException(p.errorStream.text)
+  }
+  return p.text.trim().toInteger()
+}
