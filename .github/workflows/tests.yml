@@ -11,7 +11,11 @@ jobs:
     - uses: actions/checkout@v1
     - name: Run a one-line script
       env:
-        TEST_SECRET: ${{ secrets.TEST_SECRET }}
+        ALTER_BUGSNAG_KEY: ${{ secrets.ALTER_BUGSNAG_KEY }}
+        ALTER_PUBLISHKEY_JSON_B64: ${{ secrets.ALTER_PUBLISHKEY_JSON_B64 }}
+        ALTER_UPLOAD_KEY_B64: ${{ secrets.ALTER_UPLOAD_KEY_B64 }}
+        ALTER_UPLOAD_KEY_PASSWORD: ${{ secrets.ALTER_UPLOAD_KEY_PASSWORD }}
+        ALTER_UPLOAD_STORE_PASSWORD: ${{ secrets.ALTER_UPLOAD_STORE_PASSWORD }}
       run: |
         .github/workflows/setup_ci_env.sh
         ./gradlew test :app:publishReleaseApk
