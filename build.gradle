@@ -12,7 +12,7 @@ buildscript {
       ],
   ]
   ext.buildConfig.version['name'] = "${buildConfig.version.major}.${buildConfig.version.minor}.${buildConfig.version.patch}"
-  if (System.getenv("GITHUB_WORKFLOW").blank) {
+  if (System.getenv("GITHUB_WORKFLOW") == null) {
     ext.buildConfig.version['code'] = 1
   } else {
     int lastVersionCodeBeforeUsingCommits = 30001
