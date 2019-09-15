@@ -27,6 +27,10 @@
         <emptyLine />
       </value>
     </option>
+    <GroovyCodeStyleSettings>
+      <option name="ALIGN_MULTILINE_LIST_OR_MAP" value="false" />
+      <option name="ALIGN_NAMED_ARGS_IN_MAP" value="false" />
+    </GroovyCodeStyleSettings>
     <JavaCodeStyleSettings>
       <option name="IMPORT_LAYOUT_TABLE">
         <value>

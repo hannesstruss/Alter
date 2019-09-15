@@ -12,7 +12,11 @@ buildscript {
       ],
   ]
   ext.buildConfig.version['name'] = "${buildConfig.version.major}.${buildConfig.version.minor}.${buildConfig.version.patch}"
-  ext.buildConfig.version['code'] = buildConfig.version.major * 1000000 + buildConfig.version.minor * 10000 + buildConfig.version.patch * 100 + buildConfig.version.build
+  if (System.getenv("GITHUB_WORKFLOW").blank) {
+    ext.buildConfig.version['code'] = 1
+  } else {
+    ext.buildConfig.version['code'] = numberOfCommits()
+  }
 
 
   ext.versions = [
@@ -203,4 +207,12 @@ task clean(type: Delete) {
 
 def propOrEmpty(String name) {
   return hasProperty(name) ? getProperty(name) : ''
+}
+
+int numberOfCommits() {
+  def p = "git rev-list --count HEAD".execute([], rootDir)
+  if (p.waitFor() != 0) {
+    throw new RuntimeException(p.errorStream.text)
+  }
+  return p.text.trim().toInteger()
 }
