@@ -13,5 +13,6 @@ jobs:
       env:
         TEST_SECRET: ${{ secrets.TEST_SECRET }}
       run: |
+        echo TESTING SECRETS NOW!
         echo $TEST_SECRET
         ./gradlew test
