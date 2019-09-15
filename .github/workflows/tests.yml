@@ -10,6 +10,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run a one-line script
+      env:
+        TEST_SECRET: ${{ secrets.TEST_SECRET }}
       run: |
         echo $TEST_SECRET
         ./gradlew test
