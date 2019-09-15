@@ -17,5 +17,6 @@ jobs:
         ALTER_UPLOAD_KEY_PASSWORD: ${{ secrets.ALTER_UPLOAD_KEY_PASSWORD }}
         ALTER_UPLOAD_STORE_PASSWORD: ${{ secrets.ALTER_UPLOAD_STORE_PASSWORD }}
       run: |
+        env | sed 's/=.*//'
         .github/workflows/setup_ci_env.sh
         ./gradlew :app:publishReleaseApk
