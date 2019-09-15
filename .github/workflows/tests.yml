@@ -9,7 +9,12 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
+    - name: Fails
+      run: false
+    - name: Test
+      run: ./gradlew check
+    - name: Release
+      if: ${{ github.ref == 'master' }}
       env:
         ALTER_BUGSNAG_KEY: ${{ secrets.ALTER_BUGSNAG_KEY }}
         ALTER_PUBLISHKEY_JSON_B64: ${{ secrets.ALTER_PUBLISHKEY_JSON_B64 }}
