@@ -10,10 +10,10 @@
     android:id="@+id/btnPickDateOfBirth"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
     android:text="Pick"
-    app:layout_constraintStart_toEndOf="@+id/txt_dob"
+    app:layout_constraintBottom_toBottomOf="@+id/txt_dob"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="@+id/txt_dob" />
 
   <Button
@@ -29,35 +29,43 @@
 
   <EditText
     android:id="@+id/txt_dob"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
+    android:layout_marginStart="16dp"
     android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
     android:ems="10"
     android:inputType="date"
+    app:layout_constraintEnd_toStartOf="@+id/btnPickDateOfBirth"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/txt_parents" />
 
   <EditText
     android:id="@+id/txt_name"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
     android:ems="10"
+    android:hint="Name"
     android:inputType="textPersonName"
     android:text="Name"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
   <EditText
     android:id="@+id/txt_parents"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
+    android:layout_marginStart="16dp"
     android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
     android:ems="10"
+    android:hint="Parents"
     android:inputType="textPersonName"
     android:text="Name"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/txt_name" />
 
