@@ -25,3 +25,15 @@ dependencies {
 
   implementation deps.timber
 }
+
+// Work around NDK version conflict on GitHub Actions:
+// https://github.community/t5/GitHub-Actions/Android-NDK-on-Unix-is-incompatible-with-Android-Build-tools-3-6/td-p/47622
+afterEvaluate {
+  android.buildTypes.all { buildType ->
+    tasks.named("strip${buildType.name.capitalize()}DebugSymbols").configure {
+      def ndkProperties = new Properties()
+      ndkProperties.load(new FileInputStream("${System.env.ANDROID_HOME}/ndk-bundle/source.properties"))
+      android.ndkVersion = ndkProperties.get("Pkg.Revision")
+    }
+  }
+}
