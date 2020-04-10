@@ -50,12 +50,23 @@ buildscript {
 
   ext.deps = [
       'kotlin': [
-          'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.lang}",
+          'stdlib': [
+              'common': "org.jetbrains.kotlin:kotlin-stdlib-common:${versions.kotlin.lang}",
+              'jdk': "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin.lang}",
+          ],
           'coroutines': [
               'core': "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutines}",
               'rx2': "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${versions.kotlin.coroutines}",
               'playservices': "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${versions.kotlin.coroutines}",
               'android': "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin.coroutines}",
+          ],
+          'gradle': [
+              'multiplatform': 'org.jetbrains.kotlin.multiplatform',
+          ],
+          'test': [
+              'common': "org.jetbrains.kotlin:kotlin-test-common:${versions.kotlin.lang}",
+              'jdk': "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin.lang}",
+              'annotations': "org.jetbrains.kotlin:kotlin-test-annotations-common:${versions.kotlin.lang}",
           ]
       ],
       'android': [
@@ -115,6 +126,7 @@ buildscript {
     mavenCentral()
     jcenter()
     maven { url("https://oss.sonatype.org/content/repositories/snapshots") }
+    gradlePluginPortal()
   }
 
   dependencies {

@@ -1,0 +1,32 @@
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
+
+kotlin {
+  jvm()
+
+  sourceSets {
+    commonMain {
+      dependencies {
+        api deps.kotlin.stdlib.common
+      }
+    }
+
+    commonTest {
+      dependencies {
+        implementation deps.kotlin.test.common
+        implementation deps.kotlin.test.annotations
+      }
+    }
+
+    jvmMain {
+      dependencies {
+        api deps.kotlin.stdlib.jdk
+      }
+    }
+
+    jvmTest {
+      dependencies {
+        implementation deps.kotlin.test.jdk
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-  implementation deps.kotlin.stdlib
+  implementation deps.kotlin.stdlib.jdk
   implementation deps.kotlin.coroutines.core
 
   implementation deps.dagger.runtime

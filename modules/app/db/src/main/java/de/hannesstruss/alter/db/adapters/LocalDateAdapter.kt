@@ -1,6 +1,7 @@
 package de.hannesstruss.alter.db.adapters
 
 import com.squareup.sqldelight.ColumnAdapter
+import de.hannesstruss.alter.dates.Date
 import java.time.LocalDate
 
 object LocalDateAdapter : ColumnAdapter<LocalDate, String> {
