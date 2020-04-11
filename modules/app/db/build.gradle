@@ -4,15 +4,32 @@ buildscript {
   }
 }
 
-apply plugin: 'kotlin'
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'com.squareup.sqldelight'
 
-dependencies {
-  implementation project(':modules:aux:dates')
+kotlin {
+  jvm()
+
+  sourceSets {
+    commonMain {
+      dependencies {
+        api project(':modules:aux:dates')
+        implementation deps.kotlin.stdlib.common
+        implementation deps.sqldelight.runtime
+      }
+    }
+
+    commonTest {
+      dependencies {
+        implementation deps.kotlin.test.common
+      }
+    }
+  }
 }
 
 sqldelight {
   AlterDatabase {
     packageName = 'de.hannesstruss.alter.db'
+    sourceFolders = ['sqldelight']
   }
 }

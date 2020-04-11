@@ -112,6 +112,7 @@ buildscript {
       ],
       's3': 'com.amazonaws:aws-android-sdk-s3:2.13.4',
       'sqldelight': [
+          'runtime': "com.squareup.sqldelight:runtime:${versions.sqldelight}",
           'gradle': "com.squareup.sqldelight:gradle-plugin:${versions.sqldelight}",
           'coroutines': "com.squareup.sqldelight:coroutines-extensions:${versions.sqldelight}",
           'android_driver': "com.squareup.sqldelight:android-driver:${versions.sqldelight}"

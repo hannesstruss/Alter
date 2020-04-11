@@ -1,8 +1,6 @@
 package de.hannesstruss.alter.db.adapters
 
-import com.google.common.truth.Truth.assertThat
 import de.hannesstruss.alter.dates.Date
-import org.junit.Test
 
 class DateAdapterTest {
   @Test fun decode() {
