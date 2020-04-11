@@ -22,6 +22,19 @@ kotlin {
     commonTest {
       dependencies {
         implementation deps.kotlin.test.common
+        implementation deps.kotlin.test.annotations
+      }
+    }
+
+    jvmMain {
+      dependencies {
+        api deps.kotlin.stdlib.jdk
+      }
+    }
+
+    jvmTest {
+      dependencies {
+        implementation deps.kotlin.test.jdk
       }
     }
   }
