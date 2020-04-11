@@ -1,7 +1,7 @@
 package de.hannesstruss.alter.features.babydetail
 
+import de.hannesstruss.alter.dates.today
 import de.hannesstruss.alter.domain.BabiesRepository
-import de.hannesstruss.alter.domain.Clock
 import de.hannesstruss.alter.features.babydetail.BabyDetailEvent.CycleThroughAgeFormats
 import de.hannesstruss.alter.features.babydetail.BabyDetailEvent.DeleteBaby
 import de.hannesstruss.alter.flowextensions.awaitFirst
@@ -14,10 +14,9 @@ class BabyDetailViewModel
 @Inject constructor(
   @Named("babyId") private val babyId: Long,
   private val babiesRepository: BabiesRepository,
-  clock: Clock,
   private val navigator: Navigator
 ) : StateMachineViewModel<BabyDetailState, BabyDetailEvent>() {
-  override val initialState = BabyDetailState(babyId = babyId, today = clock.now().toLocalDate())
+  override val initialState = BabyDetailState(babyId = babyId, today = today())
 
   override val stateMachine = createEngine {
     onInit {

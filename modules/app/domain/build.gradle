@@ -2,4 +2,5 @@ apply plugin: 'kotlin'
 
 dependencies {
   api project(':modules:app:db')
+  api project(':modules:aux:dates')
 }

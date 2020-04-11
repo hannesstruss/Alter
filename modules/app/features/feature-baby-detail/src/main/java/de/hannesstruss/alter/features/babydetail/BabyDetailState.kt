@@ -1,21 +1,20 @@
 package de.hannesstruss.alter.features.babydetail
 
+import de.hannesstruss.alter.dates.Age
+import de.hannesstruss.alter.dates.Date
 import de.hannesstruss.alter.db.Baby
-import de.hannesstruss.alter.domain.PrettyAge
-import java.time.LocalDate
-import java.time.OffsetDateTime
 
 data class BabyDetailState(
   val babyId: Long,
   val baby: Baby? = null,
-  val today: LocalDate,
+  val today: Date,
   val showAgeAsWeeks: Boolean = false
 ) {
-  val age: PrettyAge? = baby?.born_at?.let {
+  val age: Age? = baby?.born_at?.let {
     if (showAgeAsWeeks) {
-      PrettyAge.weeksOf(it, today)
+      TODO("Can't show weeks yet")
     } else {
-      PrettyAge.of(it, today)
+      Age.of(it, today)
     }
   }
 }

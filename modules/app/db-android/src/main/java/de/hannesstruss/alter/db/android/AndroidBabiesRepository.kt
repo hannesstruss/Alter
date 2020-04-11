@@ -1,6 +1,7 @@
 package de.hannesstruss.alter.db.android
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
+import de.hannesstruss.alter.dates.Date
 import de.hannesstruss.alter.db.AlterDatabase
 import de.hannesstruss.alter.db.Baby
 import de.hannesstruss.alter.domain.BabiesRepository
@@ -8,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
 import javax.inject.Inject
 
 class AndroidBabiesRepository
@@ -18,8 +18,8 @@ class AndroidBabiesRepository
   override suspend fun insert(
     name: String,
     parents: String,
-    bornAt: LocalDate?,
-    dueOn: LocalDate?
+    bornAt: Date?,
+    dueOn: Date?
   ) = withContext(Dispatchers.IO) {
     alterDb.babyQueries.insert(name, parents, bornAt, dueOn)
   }

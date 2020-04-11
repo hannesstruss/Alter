@@ -8,7 +8,7 @@ apply plugin: 'kotlin'
 apply plugin: 'com.squareup.sqldelight'
 
 dependencies {
-  api project(':modules:aux:dates')
+  implementation project(':modules:aux:dates')
 }
 
 sqldelight {

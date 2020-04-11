@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.picker.MaterialDatePicker
 import com.google.android.material.picker.MaterialPickerOnPositiveButtonClickListener
+import de.hannesstruss.alter.dates.Date
 import de.hannesstruss.alter.features.common.FeatureDependencyProvidingFragment
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.AddBaby
 import de.hannesstruss.alter.features.editbaby.EditBabyEvent.ChangeDateOfBirth
@@ -21,7 +22,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import shronq.statemachine.FeatureComponent
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -83,13 +83,13 @@ class EditBabyFragment :
     }
   }
 
-  private val MaterialDatePicker<Long>.selectedDate: LocalDate?
+  private val MaterialDatePicker<Long>.selectedDate: Date?
     get() {
       return selection?.let {
         // Material Date Picker uses system time zone instead of UTC.
         val zoneId = ZoneId.systemDefault()
-
-        LocalDateTime.ofInstant(Instant.ofEpochMilli(it), zoneId).toLocalDate()
+        val localDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(it), zoneId).toLocalDate()
+        Date(localDate.year, localDate.monthValue, localDate.dayOfMonth)
       }
     }
 }

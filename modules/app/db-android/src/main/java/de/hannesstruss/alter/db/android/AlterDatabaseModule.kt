@@ -6,17 +6,16 @@ import dagger.Module
 import dagger.Provides
 import de.hannesstruss.alter.db.AlterDatabase
 import de.hannesstruss.alter.db.Baby
-import de.hannesstruss.alter.db.adapters.LocalDateAdapter
+import de.hannesstruss.alter.db.adapters.DateAdapter
 
 @Module
 class AlterDatabaseModule {
   @Provides fun alterDatabase(context: Context): AlterDatabase {
     val driver = AndroidSqliteDriver(AlterDatabase.Schema, context, "alter.db")
     val adapter = Baby.Adapter(
-      born_atAdapter = LocalDateAdapter,
-      due_onAdapter = LocalDateAdapter
+      born_atAdapter = DateAdapter,
+      due_onAdapter = DateAdapter
     )
-    val db = AlterDatabase(driver, adapter)
-    return db
+    return AlterDatabase(driver, adapter)
   }
 }

@@ -1,9 +1,9 @@
 package de.hannesstruss.alter.features.editbaby
 
-import java.time.LocalDate
+import de.hannesstruss.alter.dates.Date
 
 data class EditBabyState(
   val name: String = "",
   val parents: String = "",
-  val birthDate: LocalDate? = null
+  val birthDate: Date? = null
 )
