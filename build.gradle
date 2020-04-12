@@ -115,7 +115,8 @@ buildscript {
           'runtime': "com.squareup.sqldelight:runtime:${versions.sqldelight}",
           'gradle': "com.squareup.sqldelight:gradle-plugin:${versions.sqldelight}",
           'coroutines': "com.squareup.sqldelight:coroutines-extensions:${versions.sqldelight}",
-          'android_driver': "com.squareup.sqldelight:android-driver:${versions.sqldelight}"
+          'android_driver': "com.squareup.sqldelight:android-driver:${versions.sqldelight}",
+          'ios_driver': "com.squareup.sqldelight:native-driver-iosx64:${versions.sqldelight}",
       ],
       'junit': 'junit:junit:4.12',
       'truth': 'com.google.truth:truth:0.43',

@@ -2,7 +2,6 @@ package de.hannesstruss.alter.db.adapters
 
 import com.squareup.sqldelight.ColumnAdapter
 import de.hannesstruss.alter.dates.Date
-import java.time.LocalDate
 
 object DateAdapter : ColumnAdapter<Date, String> {
   override fun decode(databaseValue: String): Date {
@@ -11,6 +10,9 @@ object DateAdapter : ColumnAdapter<Date, String> {
   }
 
   override fun encode(value: Date): String {
-    return String.format("%04d-%02d-%02d", value.year, value.month, value.day)
+    val year = value.year.toString().padStart(4, '0')
+    val month = value.month.toString().padStart(2, '0')
+    val day = value.day.toString().padStart(2, '0')
+    return "$year-$month-$day"
   }
 }

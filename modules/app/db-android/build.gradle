@@ -6,4 +6,5 @@ dependencies {
 
   implementation deps.sqldelight.android_driver
   implementation deps.sqldelight.coroutines
+  implementation deps.sqldelight.runtime
 }

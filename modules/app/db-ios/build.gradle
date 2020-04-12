@@ -1,0 +1,25 @@
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
+
+kotlin {
+  iosX64("ios") {
+    binaries {
+      framework {
+        baseName = "AlterCommon"
+      }
+    }
+  }
+
+  sourceSets {
+    commonMain {
+      dependencies {
+        api project(':modules:app:db')
+        implementation deps.sqldelight.runtime
+      }
+    }
+    iosMain {
+      dependencies {
+        implementation deps.sqldelight.ios_driver
+      }
+    }
+  }
+}
