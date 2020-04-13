@@ -5,6 +5,7 @@ kotlin {
     binaries {
       framework {
         baseName = "AlterCommon"
+        linkerOpts.add("-lsqlite3")
       }
     }
   }
