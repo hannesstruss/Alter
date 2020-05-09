@@ -6,6 +6,7 @@ kotlin {
       framework {
         baseName = "AlterCommon"
         linkerOpts.add("-lsqlite3")
+        freeCompilerArgs += "-Xobjc-generics"
       }
     }
   }
