@@ -7,6 +7,8 @@ kotlin {
         baseName = "AlterCommon"
         linkerOpts.add("-lsqlite3")
         freeCompilerArgs += "-Xobjc-generics"
+
+        export project(':modules:aux:dates')
       }
     }
   }

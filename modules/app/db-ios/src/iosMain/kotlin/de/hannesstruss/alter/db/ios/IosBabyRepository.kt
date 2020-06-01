@@ -2,6 +2,7 @@ package de.hannesstruss.alter.db.ios
 
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
+import de.hannesstruss.alter.dates.Date
 import de.hannesstruss.alter.db.AlterDatabase
 import de.hannesstruss.alter.db.Baby
 import de.hannesstruss.alter.db.adapters.DateAdapter
@@ -20,7 +21,16 @@ class IosBabyRepository {
     return db.babyQueries.selectAll()
   }
 
-  fun addBaby(name: String, parents: String) {
-    db.babyQueries.insert(name = name, parents = parents, born_at = null, due_on = null)
+  fun addBaby(
+    name: String,
+    parents: String,
+    bornOn: Date?,
+    dueOn: Date?
+  ) {
+    db.babyQueries.insert(name = name, parents = parents, born_at = bornOn, due_on = dueOn)
+  }
+
+  fun delete(id: Long) {
+    db.babyQueries.deleteById(id)
   }
 }

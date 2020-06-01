@@ -1,5 +1,4 @@
 import de.hannesstruss.alter.dates.Date;
-import java.time.LocalDate;
 
 CREATE TABLE baby (
     id INTEGER AS Long PRIMARY KEY,
