@@ -1,7 +1,12 @@
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
 
 kotlin {
-  iosX64("ios") {
+  if (iosIsPhone) {
+    iosArm64("ios")
+  } else {
+    iosX64("ios")
+  }
+  targets.getByName("ios") {
     binaries {
       framework {
         baseName = "AlterCommon"

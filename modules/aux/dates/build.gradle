@@ -2,7 +2,11 @@ apply plugin: 'org.jetbrains.kotlin.multiplatform'
 
 kotlin {
   jvm()
-  iosX64("ios")
+  if (iosIsPhone) {
+    iosArm64("ios")
+  } else {
+    iosX64("ios")
+  }
 
   sourceSets {
     commonMain {

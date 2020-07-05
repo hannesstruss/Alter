@@ -57,6 +57,13 @@ sealed class Age {
     }
   }
 
+  fun format(): String = when (this) {
+    is Days -> "$days days"
+    is Weeks -> "$weeks weeks"
+    is Months -> "$months months"
+    is Years -> "$years years, $months months"
+  }
+
   data class Days(val days: Int) : Age()
   data class Weeks(val weeks: Int) : Age()
   data class Months(val months: Int) : Age()
