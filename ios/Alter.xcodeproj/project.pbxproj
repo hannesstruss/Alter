@@ -95,18 +95,18 @@
 				D1111A60239BD1B1001D6C22 /* AddBabyView.swift */,
 				D1111A46239B8CD1001D6C22 /* AppDelegate.swift */,
 				D1111A4C239B8CD2001D6C22 /* Assets.xcassets */,
-				D1111A64239C3141001D6C22 /* BabyDetailView.swift */,
 				D1A311D823B0FED20035F5CA /* Baby.swift */,
+				D1111A64239C3141001D6C22 /* BabyDetailView.swift */,
 				D1111A4A239B8CD1001D6C22 /* ContentView.swift */,
 				D1111A5E239B99C4001D6C22 /* HomeState.swift */,
 				D1111A5A239B98BE001D6C22 /* HomeViewModel.swift */,
 				D1111A54239B8CD2001D6C22 /* Info.plist */,
+				D166FC042466CBD5004AD3AB /* IosBabyRepository+Extensions.swift */,
 				D1111A66239C4093001D6C22 /* OptionalDatePicker.swift */,
 				D1111A68239EA13A001D6C22 /* PrettyAge.swift */,
 				D1111A4E239B8CD2001D6C22 /* Preview Content */,
-				D1111A48239B8CD1001D6C22 /* SceneDelegate.swift */,
 				D12EE3D3244B1FF900B52E90 /* Query+Combine.swift */,
-				D166FC042466CBD5004AD3AB /* IosBabyRepository+Extensions.swift */,
+				D1111A48239B8CD1001D6C22 /* SceneDelegate.swift */,
 			);
 			path = Alter;
 			sourceTree = "<group>";
